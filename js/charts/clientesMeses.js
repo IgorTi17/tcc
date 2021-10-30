@@ -6,10 +6,12 @@ var dadosJulho = document.querySelector('#dadosJulho').innerText;
 var dadosAgosto = document.querySelector('#dadosAgosto').innerText;
 var dadosSetembro = document.querySelector('#dadosSetembro').innerText;
 
+console.log(dadosSetembro);
+
 var options = {
           series: [
           {
-            name: 'Atual',
+            name: 'Novos',
             data: [
               {
                 x: 'Março',
@@ -21,63 +23,23 @@ var options = {
               },
               {
                 x: 'Maio',
-                y: dadosMaio,
-                goals: [
-                  {
-                    name: 'Expectativa',
-                    value: 3,
-                    strokeWidth: 5,
-                    strokeColor: '#775DD0'
-                  }
-                ]
+                y: dadosMaio
               },
               {
                 x: 'Junho',
-                y: dadosJunho,
-                goals: [
-                  {
-                    name: 'Expectativa',
-                    value: 3,
-                    strokeWidth: 5,
-                    strokeColor: '#775DD0'
-                  }
-                ]
+                y: dadosJunho
               },
               {
                 x: 'Julho',
-                y: dadosJulho,
-                goals: [
-                  {
-                    name: 'Expectativa',
-                    value: 3,
-                    strokeWidth: 5,
-                    strokeColor: '#775DD0'
-                  }
-                ]
+                y: dadosJulho
               },
               {
                 x: 'Agosto',
-                y: dadosAgosto,
-                goals: [
-                  {
-                    name: 'Expectativa',
-                    value: 3,
-                    strokeWidth: 5,
-                    strokeColor: '#775DD0'
-                  }
-                ]
+                y: dadosAgosto
               },
 			  {
                 x: 'Setembro',
-                y: dadosSetembro,
-                goals: [
-                  {
-                    name: 'Expectativa',
-                    value: 3,
-                    strokeWidth: 5,
-                    strokeColor: '#775DD0'
-                  }
-                ]
+                y: dadosSetembro
               }
             ]
           }
@@ -91,16 +53,16 @@ var options = {
             columnWidth: '60%'
           }
         },
-        colors: ['#00E396'],
+        colors: ['#DAA520'],
         dataLabels: {
           enabled: false
         },
         legend: {
           show: true,
           showForSingleSeries: true,
-          customLegendItems: ['Atual', 'Expectativa'],
+          customLegendItems: ['Novos'],
           markers: {
-            fillColors: ['#00E396', '#775DD0']
+            fillColors: ['#DAA520']
           }
         }
         };

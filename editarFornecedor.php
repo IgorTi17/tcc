@@ -42,7 +42,7 @@ if (isset($_REQUEST['ef'])) {
 	  	$telefone = $fornecedor['telefone'];
 	  	$email = $fornecedor['email']; ?>
 
-	  		<div style="padding: 3rem 5rem;">
+	  		<div style="padding: 1rem;">
 		  		<form method="post">
 				  <input type="hidden" name="action" value="action">
 				  <input type="hidden" name="idFornecedor" value="<?= $_REQUEST['ef']?>">

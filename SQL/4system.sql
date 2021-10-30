@@ -1,3 +1,7 @@
+CREATE DATABASE `4system`;
+
+use `4system`;
+
 CREATE TABLE `cliente` (
   `idCliente` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
@@ -27,6 +31,8 @@ INSERT INTO `cliente` (`idCliente`, `nome`, `endereco`, `complemento`, `email`, 
 (16, 'Lucas', 'Rua do Lucas, 30', 'Próxima ao mcdonalds', 'lucas@gmail.com', '99999-9999', '321.321.123-12', '2021-07-22'),
 (17, 'Lucas', 'Rua do Lucas, 30', 'Próxima ao mcdonalds', 'lucas@gmail.com', '99999-9999', '321.321.123-12', '2021-05-22');
 
+
+
 CREATE TABLE `fornecedor` (
   `idFornecedor` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
@@ -46,19 +52,23 @@ INSERT INTO `fornecedor` (`idFornecedor`, `nome`, `razao_social`, `cpfCnpj`, `en
 (18, 'Ana Lucia Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'ana@gmail.com'),
 (19, 'Jorge Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'ana@gmail.com');
 
+
+
 CREATE TABLE `medicamentos` (
   `idMedicamento` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `preco` varchar(50) NOT NULL,
   `quantidade` int(11) NOT NULL,
   `bula` varchar(255) NOT NULL,
+  `imagem` varchar(255) NOT NULL,
   `receita` text NOT NULL,
   `caracteristicas` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `medicamentos` (`idMedicamento`, `nome`, `preco`, `quantidade`, `bula`, `receita`, `caracteristicas`) VALUES
-(1, 'Dipirona', '5,00', 10, 'Se persistir os sintomas o médico deverá ser consultado.', 'n', 'gota'),
-(2, 'Dipirona 2', '5,00', 10, 'Se persistir os sintomas o médico deverá ser consultado.', 'n', 'gota');
+INSERT INTO `medicamentos` (`idMedicamento`, `nome`, `preco`, `quantidade`, `bula`, `imagem`, `receita`, `caracteristicas`) VALUES
+(1, 'Dipirona', '5,00', 10, '', '', 'n', 'gota'),
+(2, 'Dipirona 2', '5,00', 10, '', '', 'n', 'gota');
+
 
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
@@ -71,6 +81,7 @@ INSERT INTO `usuario` (`id_usuario`, `usuario`, `senha`, `acesso`) VALUES
 (1, 'igor', 'igor123', 'atendente'),
 (2, 'lucas', 'lucas123', 'adm'),
 (3, 'luiz', 'luiz123', 'estoquista');
+
 
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`idCliente`);
@@ -85,7 +96,7 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_usuario`);
 
 ALTER TABLE `cliente`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 ALTER TABLE `fornecedor`
   MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
@@ -95,4 +106,3 @@ ALTER TABLE `medicamentos`
 
 ALTER TABLE `usuario`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-COMMIT;

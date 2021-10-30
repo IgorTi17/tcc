@@ -353,6 +353,5 @@ include ('includes/footer.php');
         	"pageLength": 3,
         	"scrollX": true
         });
-    } );
-
+    });
 </script>

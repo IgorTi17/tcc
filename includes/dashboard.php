@@ -31,7 +31,7 @@ if ($_SESSION['cargo'] == "") {
                 // MENU DASHBOARD
                 echo "<a href='home.php'><p><i class='fas fa-address-card'></i>Início</p></a>"; 
                 if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm") {
-                   echo "<a href='pedidos.php'><p><i class='fas fa-address-card'></i>Pedidos</p></a>";
+                   echo "<a href='busca.php'><p><i class='fas fa-address-card'></i>Novo pedido</p></a>";
                 }
                 if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm" || $_SESSION['cargo'] == "estoquista") {
                    echo "<a href='medicamentos.php'><p><i class='fas fa-address-card'></i>Medicamentos</p></a>"; 
@@ -58,14 +58,23 @@ if ($_SESSION['cargo'] == "") {
 
             <div class="conteudo">
                 <div class="menu-cel">
-                    <a href="home.php"><p><i class="fas fa-address-card"></i>Início</p></a>
-                    <a href="pedidos.php"><p><i class="fas fa-address-card"></i>Pedidos</p></a>
-                    <a href="medicamentos.php"><p><i class="fas fa-address-card"></i>Medicamentos</p></a>
-                    <a href="clientes.php"><p><i class="fas fa-address-card"></i>Clientes</p></a>
                     <?php
-                    if ($_SESSION['cargo'] == "adm") { ?>
-                        <a href="fornecedores.php"><p><i class="fas fa-address-card"></i>Fornecedores</p></a>
-                    <?php } ?>
+                        // MENU DASHBOARD
+                        echo "<a href='home.php'><p><i class='fas fa-address-card'></i>Início</p></a>"; 
+                        if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm") {
+                           echo "<a href='busca.php'><p><i class='fas fa-address-card'></i>Novo pedido</p></a>";
+                        }
+                        if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm" || $_SESSION['cargo'] == "estoquista") {
+                           echo "<a href='medicamentos.php'><p><i class='fas fa-address-card'></i>Medicamentos</p></a>"; 
+                        }
+                        
+                        if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm"){
+                            echo "<a href='clientes.php'><p><i class='fas fa-address-card'></i>Clientes</p></a>";
+                        }
+                        if ($_SESSION['cargo'] == "adm" || $_SESSION['cargo'] == "estoquista") { 
+                            echo "<a href='fornecedores.php'><p><i class='fas fa-address-card'></i>Fornecedores</p></a>";
+                        }
+                    ?>
                 </div>
                     
                 

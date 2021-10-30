@@ -1,18 +1,81 @@
 <?php 
 include ('includes/dashboard.php');
 
-// Excluindo cliente 
+// RECEBENDO DADOS DO FORMULARIO DE NOVO FORNECEDOR
+if (isset($_POST['action'])) { 
+	$nome = $_POST['nomeNC'];
+	$cpf = $_POST['cpfNC'];
+	$endereco = $_POST['enderecoNC'];
+	$complemento = $_POST['complementoNC'];
+	$telefone = $_POST['telefoneNC'];
+	$email = $_POST['emailNC'];
+
+	$sql = "INSERT INTO cliente (nome, endereco, complemento, email, telefone, cpf) VALUES ('$nome', '$endereco', '$complemento', '$email', '$telefone', '$cpf')";
+	$conexao->query($sql);
+
+	header('Location: clientes.php');
+	exit;
+}
 
 // Query clientes
 $queryClientes = "SELECT * FROM cliente";
 $eQueryClientes = mysqli_query($conexao, $queryClientes);
 ?>
 
-<style> .some{display:nome;}.conteudoFornecedor{padding: 0.5rem;}</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<style>.dataTables_filter input {margin-bottom: 6px;} .some{display:nome;}.conteudoFornecedor{padding: 0.5rem;}</style>
 <section class="conteudoFornecedor">
 	<div style="display: flex; justify-content: space-between;">
-		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioFornecedor">Cadastrar novo cliente</button>
+		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioCliente">Cadastrar novo cliente</button>
 	</div><br>
+
+
+	<!-- Modal formulario cliente -->
+	<div class="modal fade" id="formularioCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Cadastrando Fornecedor</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+			<form method="post">
+			  <input type="hidden" name="action" value="action">
+
+			  <div class="mb-3">
+				<label for="nome" class="form-label">Nome</label>
+				<input type="text" class="form-control" name="nomeNC">
+			  </div>
+			  <div class="mb-3">
+				<label for="cpf" class="form-label">CPF</label>
+				<input type="text" class="form-control cpfNC" name="cpfNC">
+			  </div>
+			  <div class="mb-3">
+				<label for="endereco" class="form-label">Endereço</label>
+				<input type="text" class="form-control" name="enderecoNC">
+			  </div>
+			  <div class="mb-3">
+				<label for="complemento" class="form-label">Complemento</label>
+				<input type="text" class="form-control" name="complementoNC">
+			  </div>
+			  <div class="mb-3">
+				<label for="telefone" class="form-label">Telefone</label>
+				<input type="text" class="form-control telefoneNC" name="telefoneNC">
+			  </div>
+			  <div class="mb-3">
+				<label for="email" class="form-label">E-mail</label>
+				<input type="email" class="form-control" name="emailNC">
+			  </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+	        <button type="submit" class="btn btn-primary">Cadastrar</button>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+
 
 	<!-- TABELA DOS CLIENTES -->
 	<table class="table display" id="tabelaClientes" style="width: 100%;">
@@ -35,7 +98,7 @@ $eQueryClientes = mysqli_query($conexao, $queryClientes);
 			      <td><?= $clientes['endereco']?></td>
 			      <td><?= $clientes['complemento']?></td>
 			      <td>
-			      	<a href=''><button type='button' class='btn btn-warning'>
+			      	<a href='editarCliente.php?ef=<?= $clientes['idCliente'] ?>'><button type='button' class='btn btn-warning'>
 					  <i class='fas fa-edit'></i>
 					</button></a>
 			      	<a href='exclusaoCliente.php?ec=<?= $clientes['idCliente'] ?>'><button type='button' class='btn btn-danger'>
@@ -58,8 +121,17 @@ include ('includes/footer.php');
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>	
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.mask.js"></script>
 
 <script>
+	// Máscaras dos formulario novo fornecedor
+	$(document).ready(function(){
+        $('.telefoneNC').mask("00000-0000", {reverse: true});
+        $('.cpfNC').mask("000.000.000-00", {reverse: true});
+    })
+
+
 	// dataTable
 	$(document).ready(function() {
         $('#tabelaClientes').DataTable({
@@ -77,5 +149,5 @@ include ('includes/footer.php');
         	"pageLength": 3,
         	"scrollX": true
         });
-    } );
+    });
 </script>
