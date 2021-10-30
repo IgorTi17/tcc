@@ -27,7 +27,7 @@ if (isset($_POST['action'])) {
 	$sql = "INSERT INTO fornecedor (nome, razao_social, cpfCnpj, endereco, complemento, telefone, email) VALUES ('$nomeNF', '$razao_socialNF', '$cpfCnpjNF', '$enderecoNF', '$complementoNF', '$telefoneNF', '$emailNF')";
 	$conexao->query($sql);
 
-	header('Location: fornecedores.php');
+	header('Location: fornecedores.php?msg=success');
 	exit;
 }
 
@@ -335,6 +335,28 @@ include ('includes/footer.php');
 		$("input").val("");
 		$("textarea").val("");
 	}
+
+	<?php if ($_REQUEST['msg'] == 'success') { ?>
+            jQuery(document).ready(function() {
+                Snackbar.show({
+                    text: 'Salvo com sucesso!',
+                    actionTextColor: '#fff',
+                    backgroundColor: '#163d54',
+                    pos: 'top-right',
+                    duration: 2000,
+                });
+            });
+        <?php } if ($_REQUEST['msg'] == 'send') { ?>
+        		jQuery(document).ready(function() {
+		            Snackbar.show({
+		                text: 'Solicitado com sucesso!',
+		                actionTextColor: '#fff',
+		                backgroundColor: '#163d54',
+		                pos: 'top-right',
+		                duration: 2000,
+		            });
+		        });
+        <?php } ?>
 
 	// dataTable
 	$(document).ready(function() {

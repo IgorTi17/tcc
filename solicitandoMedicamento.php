@@ -49,7 +49,7 @@ if (isset($_POST['actionSM'])){
 	    $mail->AltBody = 'Mensagem - '.$msgPedido;
 
 	    $mail->send();
-	    header('Location: fornecedores.php');
+	    header('Location: fornecedores.php?msg=send');
 	} catch (Exception $e) {
 	    header('Location: fornecedores.php');
 	}

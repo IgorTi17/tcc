@@ -1,8 +1,24 @@
 <?php 
 include ('includes/dashboard.php');
 
-if (isset($_POST['action'])){
-	var_dump($_POST);
+if (isset($_REQUEST['idCliente']) || isset($_POST['action'])) {
+	if (isset($_POST['action'])) {
+		$idCliente = $_REQUEST['idCliente'];
+		$medicamento = $_POST['medicamento'];
+		$quantidadeMedicamento = $_POST['quantidadeMedicamento'];
+		$tamanhoMedicamento = count($medicamento);
+		$tamanhoMedicamento-=1;
+
+		for ($i=0; $i <= $tamanhoMedicamento; $i++) { 
+			echo "INSERT INTO `itens_pedido`(`idPedido`, `medicamento`, `quantMedicamento`) VALUES ('1',".$medicamento[$i]."','".$quantidadeMedicamento[$i]."')";
+			echo "<br>";
+		}
+		
+		exit;
+	}
+}else{
+	session_destroy();
+	header('location:index.php');
 	exit;
 }
 
@@ -49,6 +65,13 @@ if (isset($_POST['action'])){
 					<button onclick="excluePedido(this.value)" value="0" class="btn"><i class="lixeira fas fa-trash-alt"></i></button>		
 				</div>
 			</div>
+		</div>
+		<div class="col-lg-3">
+			<label>Forma de pagamento</label>
+			<select class="form-control selectpicker" name="formaDePagamento">
+				<option value="dinheiro">Dinheiro</option>
+				<option value="cartao">Cartão</option>
+			</select>
 		</div>
 			
 		<div class="row">

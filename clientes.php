@@ -1,7 +1,7 @@
 <?php 
 include ('includes/dashboard.php');
 
-// RECEBENDO DADOS DO FORMULARIO DE NOVO FORNECEDOR
+// RECEBENDO DADOS DO FORMULARIO DE NOVO CLIENTE
 if (isset($_POST['action'])) { 
 	$nome = $_POST['nomeNC'];
 	$cpf = $_POST['cpfNC'];
@@ -13,7 +13,7 @@ if (isset($_POST['action'])) {
 	$sql = "INSERT INTO cliente (nome, endereco, complemento, email, telefone, cpf) VALUES ('$nome', '$endereco', '$complemento', '$email', '$telefone', '$cpf')";
 	$conexao->query($sql);
 
-	header('Location: clientes.php');
+	header('Location: clientes.php?msg=success');
 	exit;
 }
 
@@ -35,7 +35,7 @@ $eQueryClientes = mysqli_query($conexao, $queryClientes);
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Cadastrando Fornecedor</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">Cadastrando Cliente</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
@@ -131,6 +131,17 @@ include ('includes/footer.php');
         $('.cpfNC').mask("000.000.000-00", {reverse: true});
     })
 
+    <?php if ($_REQUEST['msg'] == 'success') { ?>
+            jQuery(document).ready(function() {
+                Snackbar.show({
+                    text: 'Salvo com sucesso!',
+                    actionTextColor: '#fff',
+                    backgroundColor: '#163d54',
+                    pos: 'top-right',
+                    duration: 2000,
+                });
+            });
+        <?php } ?>
 
 	// dataTable
 	$(document).ready(function() {

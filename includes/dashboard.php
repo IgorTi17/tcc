@@ -18,6 +18,8 @@ if ($_SESSION['cargo'] == "") {
     <title>IG Dashboard</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/estilo.css">
+    <link rel="stylesheet" type="text/css" href="snackbar/snackbar.min.css">
+    <script src="snackbar/snackbar.min.js"></script>
 </head>
 
 <body>
