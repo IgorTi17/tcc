@@ -9,8 +9,9 @@ if (isset($_POST['action'])) {
 	$complemento = $_POST['complementoNC'];
 	$telefone = $_POST['telefoneNC'];
 	$email = $_POST['emailNC'];
+	$dataAtual = strtotime('now');
 
-	$sql = "INSERT INTO cliente (nome, endereco, complemento, email, telefone, cpf) VALUES ('$nome', '$endereco', '$complemento', '$email', '$telefone', '$cpf')";
+	$sql = "INSERT INTO cliente (nome, endereco, complemento, email, telefone, cpf, dataRegistro) VALUES ('$nome', '$endereco', '$complemento', '$email', '$telefone', '$cpf', '$dataAtual')";
 	$conexao->query($sql);
 
 	header('Location: clientes.php?msg=success');

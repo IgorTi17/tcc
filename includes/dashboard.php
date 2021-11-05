@@ -34,6 +34,9 @@ if ($_SESSION['cargo'] == "") {
                 echo "<a href='home.php'><p><i class='fas fa-address-card'></i>Início</p></a>"; 
                 if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm") {
                    echo "<a href='busca.php'><p><i class='fas fa-address-card'></i>Novo pedido</p></a>";
+                } 
+                if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm") {
+                   echo "<a href='pedidos-list.php'><p><i class='fas fa-address-card'></i>Pedidos</p></a>";
                 }
                 if ($_SESSION['cargo'] == "atendente" || $_SESSION['cargo'] == "adm" || $_SESSION['cargo'] == "estoquista") {
                    echo "<a href='medicamentos.php'><p><i class='fas fa-address-card'></i>Medicamentos</p></a>"; 

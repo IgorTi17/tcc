@@ -10,7 +10,7 @@ include ('includes/dashboard.php');
 <div class="conteudoBusca">
 	<div class="card">
 		<br><div style="width: 100%;">
-			<button style="width: 100%;" class="btn-sem-cliente btn btn-primary btn-lg">Pedido sem cliente</button>
+			<button style="width: 100%;" class="btn-sem-cliente btn btn-primary btn-lg">Pedido na loja</button>
 		</div><br>
 
 		<div style="margin-top: 0.8rem;">

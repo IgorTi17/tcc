@@ -1,0 +1,7 @@
+Status "aguardando" = quando o pedido é feito pelo cliente e está aguardando a aprovação de algum atendente
+
+Status "separando" = quando um pedido foi aprovado ou realizado por um atendente, o pedido é separado para aguardar a entrega
+
+status "entrega" = quando um pedido saiu para entrega
+
+status "concluido" = quando um pedido foi entregue ou realizado no estabelecimento e não necessitou entrega

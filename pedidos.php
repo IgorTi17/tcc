@@ -1,22 +1,7 @@
 <?php 
 include ('includes/dashboard.php');
 
-if (isset($_REQUEST['idCliente']) || isset($_POST['action'])) {
-	if (isset($_POST['action'])) {
-		$idCliente = $_REQUEST['idCliente'];
-		$medicamento = $_POST['medicamento'];
-		$quantidadeMedicamento = $_POST['quantidadeMedicamento'];
-		$tamanhoMedicamento = count($medicamento);
-		$tamanhoMedicamento-=1;
-
-		for ($i=0; $i <= $tamanhoMedicamento; $i++) { 
-			echo "INSERT INTO `itens_pedido`(`idPedido`, `medicamento`, `quantMedicamento`) VALUES ('1',".$medicamento[$i]."','".$quantidadeMedicamento[$i]."')";
-			echo "<br>";
-		}
-		
-		exit;
-	}
-}else{
+if (!isset($_REQUEST['idCliente'])) {
 	session_destroy();
 	header('location:index.php');
 	exit;
@@ -28,6 +13,9 @@ if (isset($_REQUEST['idCliente']) || isset($_POST['action'])) {
 		color: red;
 		cursor: pointer;
 	}
+	.labelValorTaxa{
+		margin-right: 1rem;
+	}
 	@media (min-width: 992px){
 		.lixeira{
 			margin-top: 25px;
@@ -36,12 +24,13 @@ if (isset($_REQUEST['idCliente']) || isset($_POST['action'])) {
 </style>
 
 <div style='padding:15px;'>
-    <h1 style= "text-align: center; font-family: Oswald; letter-spacing: 2px;"> Efetuar Pedidos </h1> <br>
+    <h1 style= "text-align: center; font-family: Oswald, sans-serif; letter-spacing: 2px; "> Efetuar Pedidos </h1> <br>
 
-    <h3 id="add_div_pedido" style="font-size: 3rem; cursor: pointer;"><i class="fas fa-plus-square text-success"></i></h3>
+    <h3 id="add_div_pedido" style="font-size: 3rem; cursor: pointer; display: inline;"><i class="fas fa-plus-square text-success"></i></h3>
  
- 	<form method="POST">
- 		<input type="hidden" name="action">
+ 	<form method="POST" action="fecharPedido.php">
+ 		<input type="hidden" name="viewer">
+ 		<input type="hidden" name="idCliente" value="<?= $_REQUEST['idCliente'] ?>">
 		<div class="row" id="div_pedido">
 			<div id="pedido_0" class="row" style="margin-bottom: 20px; padding-right: 0;">
 				<div class="col-lg-9">
@@ -66,16 +55,33 @@ if (isset($_REQUEST['idCliente']) || isset($_POST['action'])) {
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-3">
-			<label>Forma de pagamento</label>
-			<select class="form-control selectpicker" name="formaDePagamento">
-				<option value="dinheiro">Dinheiro</option>
-				<option value="cartao">Cartão</option>
-			</select>
-		</div>
-			
 		<div class="row">
-			<div class="col-lg-10"> </div>
+			<div class="col-lg-3">
+				<label>Forma de pagamento</label>
+				<select class="form-control selectpicker" id="formaDePagamento" name="formaDePagamento">
+					<option value="dinheiro">Dinheiro</option>
+					<option value="cartao">Cartão</option>
+				</select>
+			</div>
+			<div class="col-lg-3" id="div_troco">
+				<label>Troco</label>
+				<input type="text" name="troco" id="troco" class="form-control" placeholder="Troco">
+			</div>
+			<div class="col-lg-4" id="div_troco">
+				<label>Taxa de entrega</label><br>
+                <input type="radio" class="taxa2"  name="taxaEntrega" value="2">
+                <label for="2Reais" class="labelValorTaxa">R$ 2,00</label>
+                <input type="radio" class="taxa3" name="taxaEntrega" value="3">
+                <label for="3Reais" class="labelValorTaxa">R$ 3,00</label>
+                <input type="radio" class="taxa4" name="taxaEntrega" value="4">
+                <label for="4Reais" class="labelValorTaxa">R$ 4,00</label><br>
+                <input type="radio" class="taxa5"  name="taxaEntrega" value="5">
+                <label for="5Reais" class="labelValorTaxa">R$ 5,00</label>
+                <input type="radio" class="taxa6" name="taxaEntrega" value="6">
+                <label for="6Reais" class="labelValorTaxa">R$ 6,00</label>
+                <input type="radio" class="taxa7" name="taxaEntrega" value="7">
+                <label for="7Reais" class="labelValorTaxa">R$ 7,00</label><br>
+			</div>
 			<div class="col-lg-2"> <br>
 				<div class="row">
 					<div class="col-lg-8">
@@ -93,8 +99,12 @@ include ('includes/footer.php');
 ?>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="js/jquery.mask.js"></script>
 
 <script>
+	$(document).ready(function(){
+	    $('#troco').mask("##0.00", {reverse: true});
+	});
 	contador = 1;
     //Adiciona linha de pedido
     $( "#add_div_pedido" ).click(function() {
@@ -102,6 +112,18 @@ include ('includes/footer.php');
 
         $("#div_pedido").append(documents);
         contador++;
+    });
+
+    //Adicionar troco 
+    campo = $("#formaDePagamento");
+    campo.change(function() {
+        campoValor = $("#formaDePagamento").val();
+        $("#div_troco").empty();
+        if(campoValor == 'dinheiro'){
+            var div_conteudo ='<label>Troco</label><input type="text" name="troco" id="troco" class="form-control" placeholder="Troco">';
+            $("#div_troco").append(div_conteudo);  
+    		$('#troco').mask("##0.00", {reverse: true});
+        }
     });
 
     function excluePedido(id){

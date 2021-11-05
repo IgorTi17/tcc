@@ -93,7 +93,9 @@ $eQueryFornecedor = mysqli_query($conexao, $queryFornecedor);
 	<!-- botão modal formulario fornecedor-->
 	<div style="display: flex; justify-content: space-between;">
 		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioFornecedor">Cadastrar novo fornecedor</button>
-		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioSM">Solicitar medicamentos</button>
+		<?php if($_SESSION['cargo'] == "estoquista" || $_SESSION['cargo'] == "adm"){ ?>
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioSM">Solicitar medicamentos</button>
+		<?php } ?>
 		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#buscaAvancada" aria-expanded="false" aria-controls="collapseExample">
 		    Busca Avançada
 		</button>
