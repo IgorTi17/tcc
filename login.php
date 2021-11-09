@@ -22,11 +22,13 @@ $row = mysqli_num_rows($result);
 while ($registro = mysqli_fetch_array($result)){						
 	$acesso =  $registro['acesso'];
 	$atendente = $registro['id_usuario'];
+	$userid = $registro['id_usuario'];
 } 
 
 
 if ($row == 1 && $acesso == "atendente") {
 	$_SESSION['usuario'] = $usuario;
+	$_SESSION['userid'] = $userid;
 	$_SESSION['cargo'] = "atendente";
 	header('Location: home.php');
 	exit();
@@ -34,6 +36,7 @@ if ($row == 1 && $acesso == "atendente") {
 
 else if ($row == 1 && $acesso == "adm") {
 	$_SESSION['usuario'] = $usuario;
+	$_SESSION['userid'] = $userid;
 	$_SESSION['cargo'] = "adm";
 	header('Location: home.php');
 	exit();
@@ -41,6 +44,7 @@ else if ($row == 1 && $acesso == "adm") {
 
 else if ($row == 1 && $acesso == "estoquista") {
 	$_SESSION['usuario'] = $usuario;
+	$_SESSION['userid'] = $userid;
 	$_SESSION['cargo'] = "estoquista";
 	header('Location: home.php');
 	exit();

@@ -10,25 +10,29 @@ require 'vendor/autoload.php';
 // Instantiation and passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
+session_start();
 include('conexao.php');
 
 if (isset($_POST['actionSM'])){
 	$fornecedor = $_POST['fornecedor'];
 	$msgPedido = $_POST['msgPedido'];
+	$dataAtual = strtotime('now');
 
-	$queryFornecedorSM = mysqli_query($conexao, "SELECT email FROM fornecedor WHERE nome = '".$fornecedor."' OR razao_social = '".$fornecedor."'");
+	$queryFornecedorSM = mysqli_query($conexao, "SELECT idFornecedor, email FROM fornecedor WHERE nome = '".$fornecedor."' OR razao_social = '".$fornecedor."'");
 	while ($fornecedorSM = mysqli_fetch_array($queryFornecedorSM)){
 		$emailForne = $fornecedorSM['email'];
+		$idFornecedor = $fornecedorSM['idFornecedor'];
 	}
 	$emailForne = "igormoura2204@gmail.com";
+	$nomeUser = ucfirst($_SESSION['usuario']); 
 	
 }
 	date_default_timezone_set('America/Sao_Paulo');
-	$body = "<meta charset='UTF-8'><h1>DrogasMil Ltda.</h1><span>Comércio Farmacêutico</span><br><span>Av. Santa Cruz, 580 - Realengo</span><br><span>Rio de Janeiro – RJ</span><p>Rio de Janeiro, ". date('d')." de ".date('F')." ".date('Y')."</p><p>Prezado Senhor:</p><span>".$msgPedido."</span><br><br><p>Atenciosamente,</p><p> Amélia Sousa, Gerente comercial</p><br><br><img src='images/coan.png'>";
+	$body = "<h1>DrogasMil Ltda.</h1><span>Comércio Farmacêutico</span><br><span>Av. Santa Cruz, 580 - Realengo</span><br><span>Rio de Janeiro – RJ</span><p>Rio de Janeiro, ". date('d')." de ".date('F')." ".date('Y')."</p><p>Prezado Senhor:</p><span>".$msgPedido."</span><br><br><p>Atenciosamente,</p><p> ".$nomeUser.", Administrador</p><br><br><img src='images/logo.png'>";
 	
 	try {
 	    //Server settings
-	    $mail->CharSet = 'UTF-8';
+	    $mail->CharSet = 'UTF-8';	
 	    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
 	    $mail->isSMTP();                                            // Send using SMTP
 	    $mail->Host       = 'email-ssl.com.br';                    // Set the SMTP server to send through
@@ -49,6 +53,10 @@ if (isset($_POST['actionSM'])){
 	    $mail->AltBody = 'Mensagem - '.$msgPedido;
 
 	    $mail->send();
+
+	    $query = "INSERT INTO history_solicitacao (idUsuario, idFornecedor, dataAtual, msg) VALUES ('".$_SESSION['userid']."', '$idFornecedor', '$dataAtual', '$msgPedido')";
+	    $conexao->query($query);
+
 	    header('Location: fornecedores.php?msg=send');
 	} catch (Exception $e) {
 	    header('Location: fornecedores.php');

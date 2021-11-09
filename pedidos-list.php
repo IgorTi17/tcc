@@ -5,6 +5,10 @@
 	.conteudoPedidos{
 		padding: 0.5rem;
 	}
+	.status-separando{padding: 0.5rem; background-color: #ffc107; border-radius: 10px; text-transform: uppercase;}
+	.status-concluido{padding: 0.5rem; background-color: #28a745; border-radius: 10px; color: #fff; text-transform: uppercase;}
+	.status-cancelado{padding: 0.5rem; background-color: #dc3545; border-radius: 10px; color: #fff; text-transform: uppercase;}
+	.status-entrega{padding: 0.5rem; background-color: #007bff; border-radius: 10px; color: #fff; text-transform: uppercase;}
 </style>
 
 <section class="conteudoPedidos">
@@ -12,21 +16,37 @@
 	<table class="table display" id="tabelaClientes" style="width: 100%;">
 	  <thead class="table-dark">
 	      <tr>
-		      <th scope="col">Nome</th>
-		      <th scope="col">Telefone</th>
-		      <th scope="col">Endereco</th>
-		      <th scope="col">Complemento</th>
-		      <th scope="col"></th>
+		      <th scope="col" class="text-center">N°</th>
+		      <th scope="col" class="text-center">Cliente</th>
+		      <th scope="col" class="text-center">Data e Hora</th>
+		      <th scope="col" class="text-center">Total</th>
+		      <th scope="col" class="text-center">Forma de Pagamento</th>
+		      <th scope="col" class="text-center">Status</th>
 	    </tr>
 	  </thead>
-	  <tbody>	  			
-	  	<tr>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-		</tr>
+	  <tbody>
+	 		<?php
+				$queryPedido = mysqli_query($conexao, "SELECT * FROM pedidos ORDER BY idPedido");
+				while ($resultPedido = mysqli_fetch_array($queryPedido)){
+					//nomeCliente
+					$queryNomeCliente = mysqli_query($conexao, "SELECT nome FROM cliente WHERE idCliente = '".$resultPedido['idCliente']."'");
+					$resultNomeCliente = mysqli_fetch_array($queryNomeCliente);
+
+					$dataAtual = $resultPedido['dataAtual'];
+					$total = $resultPedido['total'];
+					$total = number_format($total, 2, ',', ' ');
+	  		?>	  			
+			  	<tr>
+					<th class="text-center"><?= $resultPedido['idPedido'] ?></th>
+					<th class="text-center"><?= $resultNomeCliente['nome'] ?></th>
+					<th class="text-center"><?= date('d/m/Y \à\s H:i', $dataAtual) ?></th>
+					<th class="text-center">R$ <?= $total ?></th>
+					<th class="text-center"><?= $resultPedido['formaDePagamento'] ?></th>
+					<th class="text-center">
+						<span class="status-<?= $resultPedido['status'] ?>"><?= $resultPedido['status'] ?></span>
+					</th>
+				</tr>
+			<?php } ?>
 	  </tbody>
 	</table>
 </section>

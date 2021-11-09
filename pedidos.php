@@ -31,11 +31,12 @@ if (!isset($_REQUEST['idCliente'])) {
  	<form method="POST" action="fecharPedido.php">
  		<input type="hidden" name="viewer">
  		<input type="hidden" name="idCliente" value="<?= $_REQUEST['idCliente'] ?>">
+ 		<input type="hidden" name="total" value="10.30">
 		<div class="row" id="div_pedido">
 			<div id="pedido_0" class="row" style="margin-bottom: 20px; padding-right: 0;">
 				<div class="col-lg-9">
 					<label>Medicamentos:</label>
-					<select class="form-select" name="medicamento[]">
+					<select class="form-select" name="medicamento[]" required>
 						<option selected>Selecione</option>
 						<option value="1">Dipirona</option>
 						<option value="2">Amocilina</option>
@@ -69,7 +70,7 @@ if (!isset($_REQUEST['idCliente'])) {
 			</div>
 			<div class="col-lg-4" id="div_troco">
 				<label>Taxa de entrega</label><br>
-                <input type="radio" class="taxa2"  name="taxaEntrega" value="2">
+                <input type="radio" class="taxa2"  name="taxaEntrega" value="2" checked>
                 <label for="2Reais" class="labelValorTaxa">R$ 2,00</label>
                 <input type="radio" class="taxa3" name="taxaEntrega" value="3">
                 <label for="3Reais" class="labelValorTaxa">R$ 3,00</label>
@@ -108,7 +109,7 @@ include ('includes/footer.php');
 	contador = 1;
     //Adiciona linha de pedido
     $( "#add_div_pedido" ).click(function() {
-        var documents = '<div id="pedido_'+contador+'" class="row" style="margin-bottom: 20px; padding-right: 0;"><div class="col-lg-9"><label>Medicamentos:</label><select class="form-select" name="medicamento[]"><option selected>Selecione</option><option value="1">Dipirona</option><option value="2">Amocilina</option><option value="3">Torcilax</option></select></div><div class="col-lg-2"><label>Quantidade:</label><div class="row"><div class="col-lg-8"><input type="Number" name="quantidadeMedicamento[]" value="1" class="form-control" min="1"></div></div></div><div class="col-lg-1"><button onclick="excluePedido(this.value)" value="'+contador+'" class="btn"><i class="lixeira fas fa-trash-alt"></i></button></div></div>';
+        var documents = '<div id="pedido_'+contador+'" class="row" style="margin-bottom: 20px; padding-right: 0;"><div class="col-lg-9"><label>Medicamentos:</label><select class="form-select editaValor" name="medicamento[]" required><option selected>Selecione</option><option value="1">Dipirona</option><option value="2">Amocilina</option><option value="3">Torcilax</option></select></div><div class="col-lg-2"><label>Quantidade:</label><div class="row"><div class="col-lg-8"><input type="Number" name="quantidadeMedicamento[]" value="1" class="form-control editaValor" min="1"></div></div></div><div class="col-lg-1"><button onclick="excluePedido(this.value)" value="'+contador+'" class="btn"><i class="lixeira fas fa-trash-alt"></i></button></div></div>';
 
         $("#div_pedido").append(documents);
         contador++;
