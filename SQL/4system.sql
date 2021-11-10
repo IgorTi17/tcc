@@ -1,7 +1,3 @@
-CREATE DATABASE `4system`;
-
-USE `4system`;
-
 CREATE TABLE `cliente` (
   `idCliente` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
@@ -97,9 +93,10 @@ CREATE TABLE `medicamentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `medicamentos` (`idMedicamento`, `nome`, `preco`, `quantidade`, `bula`, `imagem`, `receita`, `caracteristicas`) VALUES
-(1, 'Dipirona', '5,00', 10, '', '', 'n', 'gota'),
+(1, 'Dipirona', '5.00', 10, '', '', 'n', 'gota'),
 (2, 'Amoxilina', '4.00', 9, '', '', 'n', 'gota'),
-(3, 'Torcilax', '3.00', 8, '', '', 'n', 'gota');
+(3, 'Torcilax', '3.00', 8, '', '', 'n', 'gota'),
+(4, 'Dipirona Teste', '3.00', 27, '1636497927_35760071.pdf', '1636497927_14881004.jpg', 'n', 'carac nada...');
 
 -- --------------------------------------------------------
 
@@ -167,7 +164,7 @@ ALTER TABLE `itens_pedido`
   MODIFY `idItensPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `medicamentos`
-  MODIFY `idMedicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idMedicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 ALTER TABLE `pedidos`
   MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
