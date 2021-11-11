@@ -1,7 +1,7 @@
 <?php 
 include ('includes/dashboard.php');
 
-// Buscando fornecedores e fazendo confirmação
+// Buscando cliente e fazendo confirmação
 if (isset($_REQUEST['ec']) && empty($_POST['action'])) {
 	$queryCliente = "SELECT * FROM cliente WHERE idCliente = '".$_REQUEST['ec']."'";
 	$eQueryCliente = mysqli_query($conexao, $queryCliente);
@@ -34,7 +34,7 @@ if (isset($_REQUEST['ec']) && empty($_POST['action'])) {
 	}
 }
 
-// Deletando o fornecedor
+// Deletando o cliente
 if(isset($_POST['action'])){
 	if (isset($_POST['nao'])) { header('Location: clientes.php');}
 	if (isset($_POST['sim'])) { 

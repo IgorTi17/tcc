@@ -112,7 +112,7 @@ $eQueryMedicamentos = mysqli_query($conexao, $queryMedicamentos);
 				<input type="radio" value="n" name="receitaNM"><label style="margin-left: 0.5rem;">NÃO</label>
 			  </div>
 			  <div class="mb-3">
-				<label for="receita" class="form-label">Características</label><br>
+				<label for="caracteristicas" class="form-label">Características</label><br>
 				<textarea name="caracteristicasNM" rows="3" style="width: 100%;"></textarea>
 			  </div>
 	      </div>
@@ -129,6 +129,7 @@ $eQueryMedicamentos = mysqli_query($conexao, $queryMedicamentos);
 	<table class="table display" id="tabelaMedicamentos" style="width: 100%;">
 	  <thead class="table-dark">
 	      <tr>
+	      	  <th scope="col">N°</th>
 		      <th scope="col">Nome</th>
 		      <th scope="col">Quantidade</th>
 		      <th scope="col">Preço</th>
@@ -144,6 +145,7 @@ $eQueryMedicamentos = mysqli_query($conexao, $queryMedicamentos);
 				$preco = $medicamentos['preco']; 	  
 				$preco = number_format($preco, 2, ',', ' ');	?>		
 	  			<tr>
+	  			  <th><?= $medicamentos['idMedicamento'] ?></th>
 			      <th><?= $medicamentos['nome'] ?></th>
 			      <td><?= $medicamentos['quantidade']?></td>
 			      <td>R$ <?= $preco?></td>
@@ -152,10 +154,10 @@ $eQueryMedicamentos = mysqli_query($conexao, $queryMedicamentos);
 				  	</button>
 				  </td>
 			      <td>
-			      	<a href='#'><button type='button' class='btn btn-warning'>
+			      	<a href='editarMedicamento.php?em=<?= $medicamentos['idMedicamento'] ?>'><button type='button' class='btn btn-warning'>
 					  <i class='fas fa-edit'></i>
 					</button></a>
-			      	<a href='#'><button type='button' class='btn btn-danger'>
+			      	<a href='exclusaoMedicamento.php?em=<?= $medicamentos['idMedicamento'] ?>'><button type='button' class='btn btn-danger'>
 					  <i class='fas fa-trash-alt'></i>
 					</button></a>			      
 				  </td>
@@ -229,5 +231,15 @@ include ('includes/footer.php');
     	$("#div_descricao").empty();
     }
 
-    
+    <?php 	if ($_REQUEST['msg'] == 'success') { ?>
+        		jQuery(document).ready(function() {
+		            Snackbar.show({
+		                text: 'Salvo com sucesso!',
+		                actionTextColor: '#fff',
+		                backgroundColor: '#163d54',
+		                pos: 'top-right',
+		                duration: 2000,
+		            });
+		        });
+        <?php } ?>
 </script>
