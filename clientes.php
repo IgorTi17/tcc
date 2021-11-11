@@ -132,18 +132,6 @@ include ('includes/footer.php');
         $('.cpfNC').mask("000.000.000-00", {reverse: true});
     })
 
-    <?php if ($_REQUEST['msg'] == 'success') { ?>
-            jQuery(document).ready(function() {
-                Snackbar.show({
-                    text: 'Salvo com sucesso!',
-                    actionTextColor: '#fff',
-                    backgroundColor: '#163d54',
-                    pos: 'top-right',
-                    duration: 2000,
-                });
-            });
-        <?php } ?>
-
 	// dataTable
 	$(document).ready(function() {
         $('#tabelaClientes').DataTable({
@@ -162,4 +150,17 @@ include ('includes/footer.php');
         	"scrollX": true
         });
     });
+
+    <?php
+	if (isset($_REQUEST['msg']) && $_REQUEST['msg'] == 'success') { ?>
+        jQuery(document).ready(function() {
+            Snackbar.show({
+                text: 'Salvo com sucesso!',
+                actionTextColor: '#fff',
+                backgroundColor: '#163d54',
+                pos: 'top-right',
+                duration: 2000
+            });
+        });
+	<?php } ?>
 </script>

@@ -338,28 +338,6 @@ include ('includes/footer.php');
 		$("textarea").val("");
 	}
 
-	<?php if ($_REQUEST['msg'] == 'success') { ?>
-            jQuery(document).ready(function() {
-                Snackbar.show({
-                    text: 'Salvo com sucesso!',
-                    actionTextColor: '#fff',
-                    backgroundColor: '#163d54',
-                    pos: 'top-right',
-                    duration: 2000,
-                });
-            });
-        <?php } if ($_REQUEST['msg'] == 'send') { ?>
-        		jQuery(document).ready(function() {
-		            Snackbar.show({
-		                text: 'Solicitado com sucesso!',
-		                actionTextColor: '#fff',
-		                backgroundColor: '#163d54',
-		                pos: 'top-right',
-		                duration: 2000,
-		            });
-		        });
-        <?php } ?>
-
 	// dataTable
 	$(document).ready(function() {
         $('#tabelaFornecedor').DataTable({
@@ -378,4 +356,30 @@ include ('includes/footer.php');
         	"scrollX": true
         });
     });
+
+    <?php
+	if (isset($_REQUEST['msg']) && $_REQUEST['msg'] == 'success') { ?>
+        jQuery(document).ready(function() {
+            Snackbar.show({
+                text: 'Salvo com sucesso!',
+                actionTextColor: '#fff',
+                backgroundColor: '#163d54',
+                pos: 'top-right',
+                duration: 2000
+            });
+        });
+	<?php } ?>
+
+	<?php
+	if (isset($_REQUEST['msg']) && $_REQUEST['msg'] == 'send') { ?>
+        jQuery(document).ready(function() {
+            Snackbar.show({
+                text: 'Solicitado com sucesso!',
+                actionTextColor: '#fff',
+                backgroundColor: '#163d54',
+                pos: 'top-right',
+                duration: 2000
+            });
+        });
+	<?php } ?>
 </script>

@@ -5,15 +5,21 @@
 	.conteudoPedidos{
 		padding: 0.5rem;
 	}
-	.status-separando{padding: 0.5rem; background-color: #ffc107; border-radius: 10px; text-transform: uppercase;}
-	.status-concluido{padding: 0.5rem; background-color: #28a745; border-radius: 10px; color: #fff; text-transform: uppercase;}
-	.status-cancelado{padding: 0.5rem; background-color: #dc3545; border-radius: 10px; color: #fff; text-transform: uppercase;}
-	.status-entrega{padding: 0.5rem; background-color: #007bff; border-radius: 10px; color: #fff; text-transform: uppercase;}
+	.dataTables_filter input {
+		margin-bottom: 6px;
+	}
+	.status-separando{background-color: #ffc107; text-transform: uppercase; font-weight: bold; border-radius: 5px;}
+	
+	.status-concluido{background-color: #28a745; color: #fff; text-transform: uppercase; font-weight: bold; border-radius: 5px;}
+
+	.status-cancelado{background-color: #dc3545; color: #fff; text-transform: uppercase; font-weight: bold; border-radius: 5px;}
+
+	.status-entrega{background-color: #007bff; color: #fff; text-transform: uppercase; font-weight: bold; border-radius: 5px;}
 </style>
 
 <section class="conteudoPedidos">
 	<!-- TABELA DOS CLIENTES -->
-	<table class="table display" id="tabelaClientes" style="width: 100%;">
+	<table class="table display" id="tabelaPedidos" style="width: 100%;">
 	  <thead class="table-dark">
 	      <tr>
 		      <th scope="col" class="text-center">N°</th>
@@ -43,7 +49,7 @@
 					<th class="text-center">R$ <?= $total ?></th>
 					<th class="text-center"><?= $resultPedido['formaDePagamento'] ?></th>
 					<th class="text-center">
-						<span class="status-<?= $resultPedido['status'] ?>"><?= $resultPedido['status'] ?></span>
+						<button id="status-<?= $resultPedido['idPedido'] ?>" onclick="atualizaStatus(<?= $resultPedido['idPedido'] ?>, '<?= $resultPedido['status'] ?>')" class="btn btn-sm status-<?= $resultPedido['status'] ?>"><?= $resultPedido['status'] ?></button> 
 					</th>
 				</tr>
 			<?php } ?>
@@ -56,17 +62,48 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>	
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/atualizaStatus.js"></script>
 
 <script>
-<?php if ($_REQUEST['msg'] == 'novoPedido') { ?>
-            jQuery(document).ready(function() {
-                Snackbar.show({
-                    text: 'Pedido feito com sucesso!',
-                    actionTextColor: '#fff',
-                    backgroundColor: '#163d54',
-                    pos: 'top-right',
-                    duration: 2000,
-                });
+	// dataTable
+	$(document).ready(function() {
+        $('#tabelaPedidos').DataTable({
+        	"oLanguage": {
+				"oPaginate": {
+					"sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+					"sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+				},
+				"sInfo": "Mostrar p&#225;gina _PAGE_ de _PAGES_",
+				"sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+				"sSearchPlaceholder": "Procurar...",
+				"sLengthMenu": "Resultados :  _MENU_",
+			},
+        	"bLengthChange": false,
+        	"pageLength": 5,
+        	"scrollX": true
+        });
+    });
+
+	<?php if ($_REQUEST['msg'] == 'novoPedido') { ?>
+        jQuery(document).ready(function() {
+            Snackbar.show({
+                text: 'Pedido feito com sucesso!',
+                actionTextColor: '#fff',
+                backgroundColor: '#163d54',
+                pos: 'top-right',
+                duration: 2000,
             });
-        <?php } ?>
+        });
+    <?php } ?>
+    <?php if ($_REQUEST['msg'] == 'update') { ?>
+        jQuery(document).ready(function() {
+            Snackbar.show({
+                text: 'Pedido atualizado!',
+                actionTextColor: '#fff',
+                backgroundColor: '#163d54',
+                pos: 'top-right',
+                duration: 2000,
+            });
+        });
+    <?php } ?>
 </script>

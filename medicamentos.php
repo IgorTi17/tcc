@@ -67,9 +67,12 @@ $eQueryMedicamentos = mysqli_query($conexao, $queryMedicamentos);
 </style>
 
 <section class="conteudoMedicamento">
-	<div style="display: flex; justify-content: space-between;">
-		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioMedicamento">Cadastrar novo medicamento</button>
-	</div><br>
+	<?php 
+	if ($_SESSION['cargo'] == "adm" || $_SESSION['cargo'] == "estoquista") { ?>
+		<div style="display: flex; justify-content: space-between;">
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioMedicamento">Cadastrar novo medicamento</button>
+		</div><br>
+	<?php } ?>
 
 	<!-- Descrição medicamento -->
 	<div id="div_descricao"></div>
@@ -173,8 +176,8 @@ $eQueryMedicamentos = mysqli_query($conexao, $queryMedicamentos);
 
 
 <?php
-include ('includes/footer.php');
-?>
+include ('includes/footer.php');?>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>	
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -209,6 +212,7 @@ include ('includes/footer.php');
     //Abre descrição do medicamento 
     function abrirDescricao(id) {
     	var idMedicamento = id;
+    	console.log(id);
 
         $.ajax({
             url: 'includes/ajax/descricaoMedicamento.php',
@@ -231,15 +235,16 @@ include ('includes/footer.php');
     	$("#div_descricao").empty();
     }
 
-    <?php 	if ($_REQUEST['msg'] == 'success') { ?>
-        		jQuery(document).ready(function() {
-		            Snackbar.show({
-		                text: 'Salvo com sucesso!',
-		                actionTextColor: '#fff',
-		                backgroundColor: '#163d54',
-		                pos: 'top-right',
-		                duration: 2000,
-		            });
-		        });
-        <?php } ?>
+    <?php
+	if (isset($_REQUEST['msg']) && $_REQUEST['msg'] == 'success') { ?>
+        jQuery(document).ready(function() {
+            Snackbar.show({
+                text: 'Salvo com sucesso!',
+                actionTextColor: '#fff',
+                backgroundColor: '#163d54',
+                pos: 'top-right',
+                duration: 2000
+            });
+        });
+	<?php } ?>
 </script>

@@ -111,9 +111,9 @@ CREATE TABLE `pedidos` (
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dataAtual`, `total`, `formaDePagamento`, `troco`, `status`) VALUES
 (2, 5, 1636380683, '10.30', 'Dinheiro', '15.00', 'separando'),
-(3, 1, 1636385543, '10.30', 'Cartão', '', 'concluido'),
-(4, 6, 1636389803, '10.30', 'Cartão', '', 'cancelado'),
-(5, 7, 1636392383, '10.30', 'Dinheiro', '', 'entrega');
+(3, 1, 1636385543, '10.30', 'Cartão', '', 'entrega'),
+(4, 6, 1636389803, '10.30', 'Cartão', '', 'concluido'),
+(5, 7, 1636392383, '10.30', 'Dinheiro', '', 'cancelado');
 
 -- --------------------------------------------------------
 
@@ -154,7 +154,7 @@ ALTER TABLE `cliente`
   MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 ALTER TABLE `fornecedor`
-  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 ALTER TABLE `history_solicitacao`
   MODIFY `idHistory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
@@ -163,7 +163,7 @@ ALTER TABLE `itens_pedido`
   MODIFY `idItensPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `medicamentos`
-  MODIFY `idMedicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idMedicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `pedidos`
   MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;

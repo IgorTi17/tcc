@@ -14,9 +14,10 @@ include ('includes/dashboard.php');
         .perfis p{
             text-transform: uppercase;
             font-weight: 700;
-                margin: 0;
-    padding: 0;
-        }
+            margin: 0;
+            padding: 0;
+            text-align: center;
+         }
 
         .perfis span:nth-child(1){
             font-size: 5rem;
@@ -42,36 +43,17 @@ include ('includes/dashboard.php');
 </style>
 
 <div style='padding: 10px 10%; display: flex;flex-wrap: wrap;'>
+    <?php 
+        $queryFunc = mysqli_query($conexao, "SELECT * FROM usuario WHERE id_usuario != '".$_SESSION['userid']."'");
+        while ($resultFunc = mysqli_fetch_array($queryFunc)){
+    ?>
 	<div class='perfis'>
         <span><i class='fas fa-user-circle'></i></span>
-        <p>Nome: Igor</p>
-        <p>Cargo: Atendente</p>
-        <a href=''><span class='span4'><strong>Editar</strong> <i class='fas fa-user-edit'></i></span></a>
+        <p>Nome: <?= $resultFunc['usuario'] ?></p>
+        <p>Cargo: <?= $resultFunc['acesso'] ?></p>
+        <a href=''><span class='span4'><strong>EDITAR</strong> <i class='fas fa-user-edit'></i></span></a>
     </div>
-    <div class='perfis'>
-        <span><i class='fas fa-user-circle'></i></span>
-        <p>Nome: Igor</p>
-        <p>Cargo: Atendente</p>
-        <a href=''><span class='span4'><strong>Editar</strong> <i class='fas fa-user-edit'></i></span></a>
-    </div>
-    <div class='perfis'>
-        <span><i class='fas fa-user-circle'></i></span>
-        <p>Nome: Igor</p>
-        <p>Cargo: Atendente</p>
-        <a href=''><span class='span4'><strong>Editar</strong> <i class='fas fa-user-edit'></i></span></a>
-    </div>
-    <div class='perfis'>
-        <span><i class='fas fa-user-circle'></i></span>
-        <p>Nome: Igor</p>
-        <p>Cargo: Atendente</p>
-        <a href=''><span class='span4'><strong>Editar</strong> <i class='fas fa-user-edit'></i></span></a>
-    </div>
-    <div class='perfis'>
-        <span><i class='fas fa-user-circle'></i></span>
-        <p>Nome: Igor</p>
-        <p>Cargo: Atendente</p>
-        <a href=''><span class='span4'><strong>Editar</strong> <i class='fas fa-user-edit'></i></span></a>
-    </div>
+<?php } ?>
 </div>
 
 <?php
