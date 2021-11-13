@@ -1,0 +1,1 @@
+Demissão de funcionário - adiciona status "inativo"

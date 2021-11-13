@@ -25,18 +25,19 @@ include ('includes/dashboard.php');
 			</form>
 		</div><br>
 
-		<div style="display: flex; flex-wrap: wrap;">
+		<div style="display: flex; flex-wrap: wrap; justify-content: center;">
 			<?php 
 			if(isset($_POST['telefone'])){
 				$queryCliente = mysqli_query($conexao, "SELECT * FROM cliente WHERE telefone = '".$_POST['telefone']."'");
 				while ($cliente = mysqli_fetch_array($queryCliente)){ ?>
-					<div class="col-lg-4 card" style="margin: 0.5rem 4.5rem; text-align: center;">
+					<div class="col-lg-4 card" style="margin: 0.5rem 1.5rem; text-align: center;">
 						<span>Nome: <?= $cliente['nome'] ?></span>
 						<span>Endereço: <?= $cliente['endereco'] ?></span>
 						<span>Telefone: <?= $cliente['telefone'] ?></span>
-						<div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 0.3rem; padding: 0.5rem;">
-							<a href="pedidos.php?idCliente=<?= $cliente['idCliente'] ?>"><button class="btn-cliente btn btn-primary">Fazer pedido</button></a>
-							<a href="editarCliente.php?ef=<?= $cliente['idCliente'] ?>"><button class="btn-cliente btn btn-warning">Editar</button></a>
+						<a style="margin-top: 0.3rem;" href="pedidos.php?idCliente=<?= $cliente['idCliente'] ?>"><button class="btn-cliente btn btn-primary">Fazer pedido</button></a>
+						<div style="display: flex; justify-content: center; align-items: center;">
+							
+							<a style="margin-right: 0.5rem;" href="editarCliente.php?ef=<?= $cliente['idCliente'] ?>"><button class="btn-cliente btn btn-warning">Editar</button></a>
 							<a href="exclusaoCliente.php?ec=<?= $cliente['idCliente'] ?>"><button class="btn-cliente btn btn-danger">Excluir</button></a>
 						</div>
 					</div>

@@ -1,0 +1,11 @@
+criptografia MD5 nas senhas(login, banco e edição)
+
+pedido na loja
+
+gráficos página inicial
+
+valor total dos pedidos
+
+ajax para validar campo de cnpj e cpf
+
+limitar o numero do remedio no pedido de acordo com o estoque
