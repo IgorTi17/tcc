@@ -12,7 +12,7 @@ $usuario = $_POST['usuario'];
 $senha = $_POST['senha'];
 
 
-$query = "select * from usuario where usuario = '{$usuario}' and senha = '{$senha}'";
+$query = "select * from usuario where usuario = '{$usuario}' and senha = MD5('".$senha."') and status = 'ativo'";
 
 $result = mysqli_query($conexao, $query);
 

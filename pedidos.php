@@ -38,9 +38,11 @@ if (!isset($_REQUEST['idCliente'])) {
 					<label>Medicamentos:</label>
 					<select class="form-select" name="medicamento[]" required>
 						<option selected>Selecione</option>
-						<option value="1">Dipirona</option>
-						<option value="2">Amocilina</option>
-						<option value="3">Torcilax</option>
+						<?php 
+						$queryMed = mysqli_query($conexao, "SELECT * FROM medicamentos");
+						while ($med = mysqli_fetch_array($queryMed)){ ?>
+							<option value="<?= $med['idMedicamento'] ?>"><?= $med['nome'] ?></option>
+						<?php } ?>
 					</select>
 				</div>	
 				<div class="col-lg-2">
@@ -73,11 +75,11 @@ if (!isset($_REQUEST['idCliente'])) {
                 <input type="radio" class="taxa2"  name="taxaEntrega" value="2" checked>
                 <label for="2Reais" class="labelValorTaxa">R$ 2,00</label>
                 <input type="radio" class="taxa3" name="taxaEntrega" value="3">
-                <label for="3Reais" class="labelValorTaxa">R$ 3,00</label>
+                <label for="3Reais" class="labelValorTaxa">R$ 3,00</label><br>
                 <input type="radio" class="taxa4" name="taxaEntrega" value="4">
-                <label for="4Reais" class="labelValorTaxa">R$ 4,00</label><br>
+                <label for="4Reais" class="labelValorTaxa">R$ 4,00</label>
                 <input type="radio" class="taxa5"  name="taxaEntrega" value="5">
-                <label for="5Reais" class="labelValorTaxa">R$ 5,00</label>
+                <label for="5Reais" class="labelValorTaxa">R$ 5,00</label><br>
                 <input type="radio" class="taxa6" name="taxaEntrega" value="6">
                 <label for="6Reais" class="labelValorTaxa">R$ 6,00</label>
                 <input type="radio" class="taxa7" name="taxaEntrega" value="7">

@@ -1,10 +1,5 @@
 <?php 
 include ('includes/dashboard.php');
-if ($_SESSION['cargo'] != "adm") {
-    $_SESSION['nao_autenticado'] = true;
-    header('Location: index.php');
-    exit;
-}
 
 
 // RECEBENDO DADOS DO FORMULARIO DE NOVO FORNECEDOR
@@ -26,7 +21,6 @@ if (isset($_POST['action'])) {
 
 	$sql = "INSERT INTO fornecedor (nome, razao_social, cpfCnpj, endereco, complemento, telefone, email) VALUES ('$nomeNF', '$razao_socialNF', '$cpfCnpjNF', '$enderecoNF', '$complementoNF', '$telefoneNF', '$emailNF')";
 	$conexao->query($sql);
-
 	header('Location: fornecedores.php?msg=success');
 	exit;
 }
@@ -92,10 +86,11 @@ $eQueryFornecedor = mysqli_query($conexao, $queryFornecedor);
 <section class="conteudoFornecedor">
 	<!-- botão modal formulario fornecedor-->
 	<div style="display: flex; justify-content: space-between;">
-		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioFornecedor">Cadastrar novo fornecedor</button>
-		<?php if($_SESSION['cargo'] == "estoquista" || $_SESSION['cargo'] == "adm"){ ?>
-			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioSM">Solicitar medicamentos</button>
+		<?php if($_SESSION['cargo'] == "adm"){ ?>
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioFornecedor">Cadastrar novo fornecedor</button>
 		<?php } ?>
+		
+		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioSM">Solicitar medicamentos</button>
 		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#buscaAvancada" aria-expanded="false" aria-controls="collapseExample">
 		    Busca Avançada
 		</button>
@@ -167,11 +162,11 @@ $eQueryFornecedor = mysqli_query($conexao, $queryFornecedor);
 
 			  <div class="mb-3 divNome some">
 				<label for="nome" class="form-label">Nome</label>
-				<input type="text" class="form-control" name="nomeNF">
+				<input type="text" class="form-control" id="nomeNF" name="nomeNF">
 			  </div>
 			  <div class="mb-3 divRazaoSocial">
 				<label for="razao_social" class="form-label">Razão Social</label>
-				<input type="text" class="form-control" name="razao_socialNF">
+				<input type="text" class="form-control" id="razao_socialNF" name="razao_socialNF">
 			  </div>
 			  <div class="mb-3 divPessoaFisica some">
 				<label for="cpf" class="form-label">CPF</label>
@@ -317,12 +312,14 @@ include ('includes/footer.php');
 			divCpf.classList.remove("some");
 			divCnpj.classList.add("some");
 			divNome.classList.remove("some");
-			divRazaoSocial.classList.add("some"); }
+			divRazaoSocial.classList.add("some"); 
+			$('#razao_socialNF').val(''); }
 		if (radioCnpj.checked){
 			divCpf.classList.add("some");
 			divCnpj.classList.remove("some");
 			divNome.classList.add("some");
-			divRazaoSocial.classList.remove("some"); }
+			divRazaoSocial.classList.remove("some"); 
+			$('#nomeNF').val(''); }
 	};
 		
 	// Máscaras dos formulario novo fornecedor
@@ -353,7 +350,7 @@ include ('includes/footer.php');
 			},
         	"bLengthChange": false,
         	"pageLength": 3,
-        	"scrollX": true
+        	"scrollX": true,
         });
     });
 

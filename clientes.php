@@ -49,7 +49,7 @@ $eQueryClientes = mysqli_query($conexao, $queryClientes);
 			  </div>
 			  <div class="mb-3">
 				<label for="cpf" class="form-label">CPF</label>
-				<input type="text" class="form-control cpfNC" name="cpfNC">
+				<input type="text" id="cpfNC" onchange="verificaCPF(this.value)" class="form-control cpfNC" name="cpfNC">
 			  </div>
 			  <div class="mb-3">
 				<label for="endereco" class="form-label">Endereço</label>
@@ -126,6 +126,32 @@ include ('includes/footer.php');
 <script src="js/jquery.mask.js"></script>
 
 <script>
+	// Verificando se ha algum cliente com o CPF que esta sendo cadastrado
+	function verificaCPF(valor){
+		var cpfClientes = valor;
+		$.ajax({
+            url: 'includes/ajax/verificaCpfCliente.php',
+            data: {
+                'cpf': cpfClientes
+            },
+            type: 'POST',
+            success: function(data) {
+            	if(data == "1"){
+            		jQuery(document).ready(function() {
+			            Snackbar.show({
+			                text: 'CPF já cadastrado!',
+			                actionTextColor: '#fff',
+			                backgroundColor: '#163d54',
+			                pos: 'top-right',
+			                duration: 2000
+			            });
+			        });
+            		$('#cpfNC').val("");
+            	}
+            }
+        });
+	}
+
 	// Máscaras dos formulario novo fornecedor
 	$(document).ready(function(){
         $('.telefoneNC').mask("00000-0000", {reverse: true});

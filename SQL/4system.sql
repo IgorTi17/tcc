@@ -10,7 +10,7 @@ CREATE TABLE `cliente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `cliente` (`idCliente`, `nome`, `endereco`, `complemento`, `email`, `telefone`, `cpf`, `dataRegistro`) VALUES
-(1, 'Lucas', 'Rua do Lucas, 30', 'Próxima ao mcdonalds', 'lucas@gmail.com', '99999-9999', '321.321.123-12', '2021-03-22'),
+(1, 'Lucas', 'Rua do Lucas, 30', 'Próxima ao mcdonalds', 'lucas@gmail.com', '99999-9999', '111.111.111-11', '2021-03-22'),
 (3, 'Igor', 'Rua do Igor, 30', 'Próxima ao mcdonalds', 'igor@gmail.com', '99999-9999', '321.321.123-12', '2021-04-04'),
 (4, 'Luiz', 'Rua do Luiz, 30', 'Próxima ao mcdonalds', 'luiz@gmail.com', '99999-9999', '321.321.123-12', '2021-03-22'),
 (5, 'Guilherme', 'Rua do Guilherme, 30', 'Próxima ao mcdonalds', 'guilherme@gmail.com', '99999-9999', '321.321.123-12', '2021-09-23'),
@@ -45,7 +45,9 @@ INSERT INTO `fornecedor` (`idFornecedor`, `nome`, `razao_social`, `cpfCnpj`, `en
 (4, '', 'Nike Ltda', '28.562.224/0001-68', 'Rua da nike, 80', 'bloco 90', '97777-6666', 'contato@nike.com'),
 (7, 'Lucia Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'ana@gmail.com'),
 (18, 'Ana Lucia Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'ana@gmail.com'),
-(19, 'Jorge Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'jorge@gmail.com');
+(19, 'Jorge Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'jorge@gmail.com'),
+(21, '', '', '', '', '', '', ''),
+(22, '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -110,10 +112,10 @@ CREATE TABLE `pedidos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dataAtual`, `total`, `formaDePagamento`, `troco`, `status`) VALUES
-(2, 5, 1636380683, '10.30', 'Dinheiro', '15.00', 'separando'),
-(3, 1, 1636385543, '10.30', 'Cartão', '', 'entrega'),
-(4, 6, 1636389803, '10.30', 'Cartão', '', 'concluido'),
-(5, 7, 1636392383, '10.30', 'Dinheiro', '', 'cancelado');
+(2, 5, 1636380660, '10.30', 'Dinheiro', '15.00', 'separando'),
+(3, 1, 1636471920, '10.30', 'Cartão', '', 'entrega'),
+(4, 6, 1636562580, '10.30', 'Cartão', '', 'concluido'),
+(5, 7, 1636737960, '10.30', 'Dinheiro', '', 'cancelado');
 
 -- --------------------------------------------------------
 
@@ -121,13 +123,14 @@ CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `usuario` varchar(100) NOT NULL,
   `senha` varchar(100) NOT NULL,
-  `acesso` varchar(100) NOT NULL
+  `acesso` varchar(100) NOT NULL,
+  `status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `usuario` (`id_usuario`, `usuario`, `senha`, `acesso`) VALUES
-(1, 'igor', 'igor123', 'atendente'),
-(2, 'lucas', 'lucas123', 'adm'),
-(3, 'luiz', 'luiz123', 'estoquista');
+INSERT INTO `usuario` (`id_usuario`, `usuario`, `senha`, `acesso`, `status`) VALUES
+(1, 'igor', 'c2d53eab1c3c169cc789ba7581fc7cfa', 'atendente', 'ativo'),
+(2, 'lucas', '1308dfed71297a652cc42a390e211489', 'adm', 'ativo'),
+(3, 'luiz', 'ac152b7ba40ea05c7ba71b8e7c941cf4', 'estoquista', 'ativo');
 
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`idCliente`);
@@ -154,7 +157,7 @@ ALTER TABLE `cliente`
   MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 ALTER TABLE `fornecedor`
-  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 ALTER TABLE `history_solicitacao`
   MODIFY `idHistory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
@@ -163,10 +166,10 @@ ALTER TABLE `itens_pedido`
   MODIFY `idItensPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `medicamentos`
-  MODIFY `idMedicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idMedicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;

@@ -1,7 +1,42 @@
-<?php include('includes/dashboard.php'); ?>
+<?php 
+include('includes/dashboard.php'); 
+date_default_timezone_set('America/Sao_Paulo');
+
+//Busca avançada
+if(isset($_POST['actionBA'])){
+	if(empty($_POST['dataInicioBA'])){$dataInicioBA = "";}
+	else{
+		$dataInicioBA = strtotime(date($_POST['dataInicioBA'].' 00:00:00'));
+		$dataInicioBA = " AND dataAtual > ".$dataInicioBA;
+	} 
+	if(empty($_POST['dataFimBA'])){$dataFimBA = "";}
+	else{
+		$dataFimBA = strtotime(date($_POST['dataFimBA'].' 23:59:59'));
+		$dataFimBA = " AND dataAtual < ".$dataFimBA;
+	}   
+	if(empty($_POST['formaDePagamento'])){
+		$formaDePagamento="";
+	}else{
+		$formaDePagamento = " AND formaDePagamento = '".$_POST['formaDePagamento']."'";
+	}
+
+
+
+
+	if(empty($_POST['numeroPedidoBA'])){$numeroBA = "";}else{$numeroBA = "AND idPedido = '".$_POST['numeroPedidoBA']."'";}
+}else{
+	$numeroBA="";$dataInicioBA="";$dataFimBA="";$formaDePagamento="";
+}
+
+$queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInicioBA.$dataFimBA.$formaDePagamento." ORDER BY idPedido";
+
+?>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 <style>
+	.form-control{
+		width: 95%;
+	}
 	.conteudoPedidos{
 		padding: 0.5rem;
 	}
@@ -18,6 +53,59 @@
 </style>
 
 <section class="conteudoPedidos">
+	<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#buscaAvancada" aria-expanded="false" aria-controls="collapseExample">
+		Busca Avançada
+	</button><br><br>
+
+	<!-- Busca avançada -->
+	<div class="collapse" id="buscaAvancada">
+		<br><div class="card card-body">
+	    	<form method="post">
+	    		<input type="hidden" name="actionBA">
+	    		<div class="row">
+			    	<div class="col-lg-3">
+			    		<div class="row">
+			    			<label>Número do pedido</label>
+			    		</div>
+			    		<div class="row">
+			    			<input type="number" name="numeroPedidoBA" class="form-control">
+			    		</div>
+			    	</div>
+			    	<div class="col-lg-3">
+			    		<div class="row">
+			    			<label>Data início</label>
+			    		</div>
+			    		<div class="row">
+			    			<input type="date" name="dataInicioBA" class="form-control">
+			    		</div>
+			    	</div>
+			    	<div class="col-lg-3">
+			    		<div class="row">
+			    			<label>Data fim</label>
+			    		</div>
+			    		<div class="row">
+			    			<input type="date" name="dataFimBA" class="form-control">
+			    		</div>
+			    	</div>
+			    	<div class="col-lg-3">
+			    		<div class="row">
+			    			<label>Forma de pagamento</label>
+			    		</div>
+			    		<div class="row">
+			    			<select name="formaDePagamento" class="form-control">
+			    				<option value="">Selecione</option>
+			    				<option value="dinheiro">Dinheiro</option>
+			    				<option value="cartao">Cartão</option>
+			    			</select>
+			    		</div>
+			    	</div>
+			    </div><br>
+			    <input type="submit" class="btn btn-primary" value="Buscar">
+			    <input type="submit" class="btn btn-primary" onclick="limpar()" value="Limpar a busca">
+	    	</form>
+	  	</div>
+	</div><br>
+
 	<!-- TABELA DOS CLIENTES -->
 	<table class="table display" id="tabelaPedidos" style="width: 100%;">
 	  <thead class="table-dark">
@@ -32,8 +120,8 @@
 	  </thead>
 	  <tbody>
 	 		<?php
-				$queryPedido = mysqli_query($conexao, "SELECT * FROM pedidos ORDER BY idPedido");
-				while ($resultPedido = mysqli_fetch_array($queryPedido)){
+				$eQueryPedido = mysqli_query($conexao, $queryPedido);
+				while ($resultPedido = mysqli_fetch_array($eQueryPedido)){
 					//nomeCliente
 					$queryNomeCliente = mysqli_query($conexao, "SELECT nome FROM cliente WHERE idCliente = '".$resultPedido['idCliente']."'");
 					$resultNomeCliente = mysqli_fetch_array($queryNomeCliente);
@@ -65,6 +153,11 @@
 <script src="js/atualizaStatus.js"></script>
 
 <script>
+	// Limpando a busca avançada
+    function limpar(){
+		$("input").val("");
+	}
+
 	// dataTable
 	$(document).ready(function() {
         $('#tabelaPedidos').DataTable({
@@ -84,26 +177,29 @@
         });
     });
 
-	<?php if ($_REQUEST['msg'] == 'novoPedido') { ?>
-        jQuery(document).ready(function() {
-            Snackbar.show({
-                text: 'Pedido feito com sucesso!',
-                actionTextColor: '#fff',
-                backgroundColor: '#163d54',
-                pos: 'top-right',
-                duration: 2000,
-            });
-        });
-    <?php } ?>
-    <?php if ($_REQUEST['msg'] == 'update') { ?>
+    <?php
+	if (isset($_REQUEST['msg']) && $_REQUEST['msg'] == 'update') { ?>
         jQuery(document).ready(function() {
             Snackbar.show({
                 text: 'Pedido atualizado!',
                 actionTextColor: '#fff',
                 backgroundColor: '#163d54',
                 pos: 'top-right',
-                duration: 2000,
+                duration: 2000
             });
         });
-    <?php } ?>
+	<?php } ?>
+
+	<?php
+	if (isset($_REQUEST['msg']) && $_REQUEST['msg'] == 'novoPedido') { ?>
+        jQuery(document).ready(function() {
+            Snackbar.show({
+                text: 'Pedido feito com sucesso!',
+                actionTextColor: '#fff',
+                backgroundColor: '#163d54',
+                pos: 'top-right',
+                duration: 2000
+            });
+        });
+	<?php } ?>
 </script>

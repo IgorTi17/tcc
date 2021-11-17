@@ -6,7 +6,7 @@ if(isset($_POST['finalizar'])){
 	$idCliente = $_POST['idCliente'];
 	$formaDePagamento = $_POST['formaDePagamento'];
 	$total = $_POST['total'];
-	$dataAtual = strtotime('now');
+	$dataAtual = strtotime(date('Y-m-d H:i:00'));
 	$troco = $_POST['troco'];
 	
 
@@ -17,11 +17,10 @@ if(isset($_POST['finalizar'])){
 		//$conexao->query($queryItensPedido);
 	}
 
-	$queryPedido = "INSERT INTO pedidos (`idCliente`,`dataAtual`,`total`,`formaDePagamento`,`troco`,`status`,) VALUES ('".$idCliente."','".$dataAtual."','".$total."','".$formaDePagamento."','".$troco."','separando')";
-	//$conexao->query($queryPedido);
-	echo $queryPedido;
+	$queryPedido = "INSERT INTO pedidos (`idCliente`,`dataAtual`,`total`,`formaDePagamento`,`troco`,`status`) VALUES ('".$idCliente."','".$dataAtual."','".$total."','".$formaDePagamento."','".$troco."','separando')";
+	$conexao->query($queryPedido);
 	
-	//header('location: pedidos-list.php');
+	header('location: pedidos-list.php');
 	exit;
 }
 ?>
