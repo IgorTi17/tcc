@@ -14,7 +14,7 @@ if(isset($_POST['finalizar'])){
 	foreach ($itemQuantArr as $key => $value) {
 		$item = explode("=", $value);
 		$queryItensPedido = "INSERT INTO itens_pedido (`idPedido`,`medicamento`,`quantMedicamento`) VALUES ('".$idPedido."', '".$item[1]."', '".$item[0]."')";	
-		//$conexao->query($queryItensPedido);
+		$conexao->query($queryItensPedido);
 	}
 
 	$queryPedido = "INSERT INTO pedidos (`idCliente`,`dataAtual`,`total`,`formaDePagamento`,`troco`,`status`) VALUES ('".$idCliente."','".$dataAtual."','".$total."','".$formaDePagamento."','".$troco."','separando')";
@@ -43,20 +43,26 @@ if(isset($_POST['finalizar'])){
 				if(isset($_POST['troco'])){$troco = $_POST['troco'];}else{$troco = 0;}
 
 				date_default_timezone_set('America/Sao_Paulo');
-				//informações do cliente
-				$queryCliente = mysqli_query($conexao, "SELECT * FROM cliente WHERE idCliente = '".$_POST['idCliente']."'");
-                $resultCliente = mysqli_fetch_array($queryCliente);
-				$nomeCliente = $resultCliente["nome"];
-				$endereco = $resultCliente["endereco"];
-				$complemento = $resultCliente["complemento"];
-				$telefone = $resultCliente["telefone"];
-
-
 				echo "<p><strong>DADOS DO CLIENTE</strong></p>";
-				echo "<strong><p>NOME - ".$nomeCliente."</p>";
-				echo "<p>ENDEREÇO - ".$endereco."</p>";
-				echo "<p>COMPLEMENTO - ".$complemento."</p>";
-				echo "<p>TELEFONE - ".$telefone."</p>";
+				if(isset($_POST['nomeCliente']) && !empty($_POST['nomeCliente'])){
+					echo "<strong><p>NOME - ".ucfirst($_POST['nomeCliente'])."</p>";
+				}
+
+				if($_POST['idCliente'] != 'n'){
+					//informações do cliente
+					$queryCliente = mysqli_query($conexao, "SELECT * FROM cliente WHERE idCliente = '".$_POST['idCliente']."'");
+	                $resultCliente = mysqli_fetch_array($queryCliente);
+					$nomeCliente = $resultCliente["nome"];
+					$endereco = $resultCliente["endereco"];
+					$complemento = $resultCliente["complemento"];
+					$telefone = $resultCliente["telefone"];
+				
+					echo "<strong><p>NOME - ".$nomeCliente."</p>";
+					echo "<p>ENDEREÇO - ".$endereco."</p>";
+					echo "<p>COMPLEMENTO - ".$complemento."</p>";
+					echo "<p>TELEFONE - ".$telefone."</p>";
+				}
+
 				echo "<p>".date('d/m/Y \à\s H:i')."</p></strong>";
 				echo "<hr>";
 
@@ -82,7 +88,7 @@ if(isset($_POST['finalizar'])){
 				echo "<hr>";
 
 				echo "<p><strong>TAXA DE ENTREGA</strong></p>";
-				if(isset($_POST['taxaEntrega'])){$taxaEntrega=0;}else{$taxaEntrega = $_POST['taxaEntrega'];}
+				if(isset($_POST['taxaEntrega'])){$taxaEntrega=$_POST['taxaEntrega'];}else{$taxaEntrega = 0;}
 				$taxaEntrega = number_format($taxaEntrega, 2, ',', ' ');
 				echo "<p>R$ ".$taxaEntrega."</p>";
 				$taxaEntrega = str_replace(',', '.', $taxaEntrega);
@@ -110,7 +116,11 @@ if(isset($_POST['finalizar'])){
 					<input type="hidden" name="finalizar">
 					<?= $inputItens ?>
 					<input type="hidden" name="idPedido" value="<?= $numeroPedido ?>">
-					<input type="hidden" name="idCliente" value="<?= $_POST['idCliente'] ?>">
+					<?php if ($_POST['idCliente'] != 'n'){ ?>
+						<input type="hidden" name="idCliente" value="<?= $_POST['idCliente'] ?>">
+					<?php }else{ ?>
+						<input type="hidden" name="idCliente" value="<?= $_POST['nomeCliente'] ?>">
+					<?php } ?>
 					<input type="hidden" name="total" value="<?= $total ?>">
 					<input type="hidden" name="troco" value="<?= $troco ?>">
 					<input type="hidden" name="formaDePagamento" value="<?= $_POST['formaDePagamento'] ?>">

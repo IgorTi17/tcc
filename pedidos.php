@@ -24,11 +24,37 @@ if (!isset($_REQUEST['idCliente'])) {
 </style>
 
 <div style='padding:15px;'>
-    <h1 style= "text-align: center; font-family: Oswald, sans-serif; letter-spacing: 2px; "> Efetuar Pedidos </h1> <br>
+	<?php if($_REQUEST['idCliente'] != 'n'){ ?>
+		<h1 style= "text-align: center; font-family: Oswald, sans-serif; letter-spacing: 2px; "> Efetuar pedido </h1> <br>
+	<?php }else{ ?>
+    	<h1 style= "text-align: center; font-family: Oswald, sans-serif; letter-spacing: 2px; "> Efetuar pedido na loja </h1> <br>
+	<?php } ?>
 
-    <h3 id="add_div_pedido" style="font-size: 3rem; cursor: pointer; display: inline;"><i class="fas fa-plus-square text-success"></i></h3>
+    <?php if($_REQUEST['idCliente'] != 'n'){ ?>
+	    <hr>
+	    <h4><strong>Dados do cliente</strong></h4>
+	    <?php 
+	    	$queryCliente = mysqli_query($conexao, "SELECT * FROM cliente WHERE idCliente = '".$_REQUEST['idCliente']."' LIMIT 1");
+	    	while ($resultCliente = mysqli_fetch_array($queryCliente)){ ?>
+			    <p><strong>Nome:</strong> <?= $resultCliente['nome'] ?></p>
+			    <p><strong>Endereço:</strong> <?= $resultCliente['endereco'] ?></p>
+			    <p><strong>Complemento:</strong> <?= $resultCliente['complemento'] ?></p>
+			    <p><strong>Telefone:</strong> <?= $resultCliente['telefone'] ?></p>
+	    <?php } ?>
+	    <hr>
+	<?php }?>
+
+    
  
  	<form method="POST" action="fecharPedido.php">
+ 		<?php 
+ 			if($_REQUEST['idCliente'] == 'n'){ ?>
+ 				<label>Nome cliente</label>
+ 				<input type="text" name="nomeCliente" class="form-control"><br>
+ 		<?php } ?>
+
+ 		<h3 id="add_div_pedido" style="font-size: 3rem; cursor: pointer; display: inline;"><i class="fas fa-plus-square text-success"></i></h3>
+
  		<input type="hidden" name="viewer">
  		<input type="hidden" name="idCliente" value="<?= $_REQUEST['idCliente'] ?>">
  		<input type="hidden" name="total" value="10.30">
@@ -62,7 +88,7 @@ if (!isset($_REQUEST['idCliente'])) {
 			<div class="col-lg-3">
 				<label>Forma de pagamento</label>
 				<select class="form-control selectpicker" id="formaDePagamento" name="formaDePagamento">
-					<option value="dinheiro">Dinheiro</option>
+					<option value="Dinheiro">Dinheiro</option>
 					<option value="cartao">Cartão</option>
 				</select>
 			</div>
@@ -70,25 +96,27 @@ if (!isset($_REQUEST['idCliente'])) {
 				<label>Troco</label>
 				<input type="text" name="troco" id="troco" class="form-control" placeholder="Troco">
 			</div>
-			<div class="col-lg-4" id="div_troco">
-				<label>Taxa de entrega</label><br>
-                <input type="radio" class="taxa2"  name="taxaEntrega" value="2" checked>
-                <label for="2Reais" class="labelValorTaxa">R$ 2,00</label>
-                <input type="radio" class="taxa3" name="taxaEntrega" value="3">
-                <label for="3Reais" class="labelValorTaxa">R$ 3,00</label><br>
-                <input type="radio" class="taxa4" name="taxaEntrega" value="4">
-                <label for="4Reais" class="labelValorTaxa">R$ 4,00</label>
-                <input type="radio" class="taxa5"  name="taxaEntrega" value="5">
-                <label for="5Reais" class="labelValorTaxa">R$ 5,00</label><br>
-                <input type="radio" class="taxa6" name="taxaEntrega" value="6">
-                <label for="6Reais" class="labelValorTaxa">R$ 6,00</label>
-                <input type="radio" class="taxa7" name="taxaEntrega" value="7">
-                <label for="7Reais" class="labelValorTaxa">R$ 7,00</label><br>
-			</div>
+			<?php if($_REQUEST['idCliente'] != 'n'){ ?>
+				<div class="col-lg-4" id="div_troco">
+					<label>Taxa de entrega</label><br>
+	                <input type="radio" class="taxa2"  name="taxaEntrega" value="2" checked>
+	                <label for="2Reais" class="labelValorTaxa">R$ 2,00</label>
+	                <input type="radio" class="taxa3" name="taxaEntrega" value="3">
+	                <label for="3Reais" class="labelValorTaxa">R$ 3,00</label><br>
+	                <input type="radio" class="taxa4" name="taxaEntrega" value="4">
+	                <label for="4Reais" class="labelValorTaxa">R$ 4,00</label>
+	                <input type="radio" class="taxa5"  name="taxaEntrega" value="5">
+	                <label for="5Reais" class="labelValorTaxa">R$ 5,00</label><br>
+	                <input type="radio" class="taxa6" name="taxaEntrega" value="6">
+	                <label for="6Reais" class="labelValorTaxa">R$ 6,00</label>
+	                <input type="radio" class="taxa7" name="taxaEntrega" value="7">
+	                <label for="7Reais" class="labelValorTaxa">R$ 7,00</label><br>
+				</div>
+			<?php } ?>
 			<div class="col-lg-2"> <br>
 				<div class="row">
-					<div class="col-lg-8">
-						<button style="width: 100%;" type="submit" class="btn btn-primary">Enviar</button> 
+					<div class="col-lg-9">
+						<button style="width: 100%;" type="submit" class="btn btn-primary">Finalizar</button> 
 					</div>	
 				</div>	
 		    </div>

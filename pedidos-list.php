@@ -132,7 +132,7 @@ $queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInic
 	  		?>	  			
 			  	<tr>
 					<th class="text-center"><?= $resultPedido['idPedido'] ?></th>
-					<th class="text-center"><?= $resultNomeCliente['nome'] ?></th>
+					<th class="text-center"><?= empty($resultNomeCliente['nome']) ? $resultPedido['idCliente'] : $resultNomeCliente['nome'] ?></th>
 					<th class="text-center"><?= date('d/m/Y \à\s H:i', $dataAtual) ?></th>
 					<th class="text-center">R$ <?= $total ?></th>
 					<th class="text-center"><?= $resultPedido['formaDePagamento'] ?></th>
