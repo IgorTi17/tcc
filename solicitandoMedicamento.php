@@ -54,7 +54,7 @@ if (isset($_POST['actionSM'])){
 
 	    $mail->send();
 
-	    $query = "INSERT INTO history_solicitacao (idUsuario, idFornecedor, dataAtual, msg) VALUES ('".$_SESSION['userid']."', '$idFornecedor', '$dataAtual', '$msgPedido')";
+	    $query = "INSERT INTO history_solicitacao (idUsuario, idFornecedor, dataAtual, msg) VALUES ('".$_SESSION['userid']."', '$idFornecedor', '$dataAtual', '$msgPedido', 'PENDENTE')";
 	    $conexao->query($query);
 
 	    header('Location: fornecedores.php?msg=send');

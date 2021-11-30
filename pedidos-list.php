@@ -106,7 +106,7 @@ $queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInic
 	  	</div>
 	</div><br>
 
-	<!-- TABELA DOS CLIENTES -->
+	<!-- TABELA DOS PEDIDOS -->
 	<table class="table display" id="tabelaPedidos" style="width: 100%;">
 	  <thead class="table-dark">
 	      <tr>
@@ -202,4 +202,5 @@ $queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInic
             });
         });
 	<?php } ?>
+}
 </script>

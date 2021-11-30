@@ -166,19 +166,19 @@ $eQueryFornecedor = mysqli_query($conexao, $queryFornecedor);
 			  </div>
 			  <div class="mb-3 divRazaoSocial">
 				<label for="razao_social" class="form-label">Razão Social</label>
-				<input type="text" class="form-control" id="razao_socialNF" name="razao_socialNF">
+				<input type="text" class="form-control" id="razao_socialNF" name="razao_socialNF" required="required">
 			  </div>
 			  <div class="mb-3 divPessoaFisica some">
 				<label for="cpf" class="form-label">CPF</label>
-				<input type="text" class="form-control cpfNF" name="cpfNF">
+				<input type="text" class="form-control cpfNF" onchange="verificaCpfCnpj(this.value)" name="cpfNF" id="cpfNF">
 			  </div>
 			  <div class="mb-3 divPessoaJuridica">
 				<label for="cnpj" class="form-label">CNPJ</label>
-				<input type="text" class="form-control cnpjNF" name="cnpjNF">
+				<input type="text" class="form-control cnpjNF" onchange="verificaCpfCnpj(this.value)" name="cnpjNF" id="cnpjNF" required="required">
 			  </div>
 			  <div class="mb-3">
 				<label for="endereco" class="form-label">Endereço</label>
-				<input type="text" class="form-control" name="enderecoNF">
+				<input type="text" class="form-control" name="enderecoNF" required="required">
 			  </div>
 			  <div class="mb-3">
 				<label for="complemento" class="form-label">Complemento</label>
@@ -186,7 +186,7 @@ $eQueryFornecedor = mysqli_query($conexao, $queryFornecedor);
 			  </div>
 			  <div class="mb-3">
 				<label for="telefone" class="form-label">Telefone</label>
-				<input type="text" class="form-control telefoneNF" name="telefoneNF">
+				<input type="text" class="form-control telefoneNF" name="telefoneNF" required="required">
 			  </div>
 			  <div class="mb-3">
 				<label for="email" class="form-label">E-mail</label>
@@ -313,12 +313,20 @@ include ('includes/footer.php');
 			divCnpj.classList.add("some");
 			divNome.classList.remove("some");
 			divRazaoSocial.classList.add("some"); 
+			$("#nomeNF").attr("required", "req");
+			$("#cpfNF").attr("required", "req");
+			$("#razao_socialNF").removeAttr('required');
+			$("#cnpjNF").removeAttr('required');
 			$('#razao_socialNF').val(''); }
 		if (radioCnpj.checked){
 			divCpf.classList.add("some");
 			divCnpj.classList.remove("some");
 			divNome.classList.add("some");
 			divRazaoSocial.classList.remove("some"); 
+			$("#cnpjNF").attr("required", "req");
+			$("#razao_socialNF").attr("required", "req");
+			$("#nomeNF").removeAttr('required');
+			$("#cpfNF").removeAttr('required');
 			$('#nomeNF').val(''); }
 	};
 		
@@ -379,4 +387,32 @@ include ('includes/footer.php');
             });
         });
 	<?php } ?>
+
+	// Verificando se ha algum fornecedor com o CPF ou CNPJ que esta sendo cadastrado
+	function verificaCpfCnpj(valor){
+		var cpfCnpj = valor;
+		console.log(cpfCnpj);
+		$.ajax({
+            url: 'includes/ajax/verificaCpfCnpj.php',
+            data: {
+                'cpfCnpj': cpfCnpj
+            },
+            type: 'POST',
+            success: function(data) {
+            	if(data == "1"){
+            		jQuery(document).ready(function() {
+			            Snackbar.show({
+			                text: 'CPF ou CNPJ já cadastrado!',
+			                actionTextColor: '#fff',
+			                backgroundColor: '#163d54',
+			                pos: 'top-right',
+			                duration: 2000
+			            });
+			        });
+            		$('#cpfNF').val("");
+            		$('#cnpjNF').val("");
+            	}
+            }
+        });
+	}
 </script>

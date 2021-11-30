@@ -48,6 +48,9 @@ if ($_SESSION['cargo'] == "") {
                 if ($_SESSION['cargo'] == "adm" || $_SESSION['cargo'] == "estoquista") { 
                     echo "<a href='fornecedores.php'><p><i class='fas fa-address-card'></i>Fornecedores</p></a>";
                 }
+                if ($_SESSION['cargo'] == "adm" || $_SESSION['cargo'] == "estoquista") { 
+                    echo "<a href='solicitaoMedicamentos.php'><p><i class='fas fa-address-card'></i>Solicitações de medicamentos</p></a>";
+                }
             ?>
         </div>
 

@@ -45,15 +45,15 @@ $eQueryClientes = mysqli_query($conexao, $queryClientes);
 
 			  <div class="mb-3">
 				<label for="nome" class="form-label">Nome</label>
-				<input type="text" class="form-control" name="nomeNC">
+				<input type="text" class="form-control" name="nomeNC" required>
 			  </div>
 			  <div class="mb-3">
 				<label for="cpf" class="form-label">CPF</label>
-				<input type="text" id="cpfNC" onchange="verificaCPF(this.value)" class="form-control cpfNC" name="cpfNC">
+				<input type="text" id="cpfNC" onchange="verificaCPF(this.value)" class="form-control cpfNC" name="cpfNC" required>
 			  </div>
 			  <div class="mb-3">
 				<label for="endereco" class="form-label">Endereço</label>
-				<input type="text" class="form-control" name="enderecoNC">
+				<input type="text" class="form-control" name="enderecoNC" required>
 			  </div>
 			  <div class="mb-3">
 				<label for="complemento" class="form-label">Complemento</label>
@@ -61,7 +61,7 @@ $eQueryClientes = mysqli_query($conexao, $queryClientes);
 			  </div>
 			  <div class="mb-3">
 				<label for="telefone" class="form-label">Telefone</label>
-				<input type="text" class="form-control telefoneNC" name="telefoneNC">
+				<input type="text" class="form-control telefoneNC" name="telefoneNC" required>
 			  </div>
 			  <div class="mb-3">
 				<label for="email" class="form-label">E-mail</label>

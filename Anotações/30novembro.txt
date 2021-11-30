@@ -1,0 +1,9 @@
+-- pedido na loja
+
+-- gráficos página inicial
+
+-- valor total dos pedidos
+
+-- limitar o numero do remedio no pedido de acordo com o estoque
+
+
