@@ -50,7 +50,8 @@ if (!isset($_REQUEST['idCliente'])) {
  		<?php 
  			if($_REQUEST['idCliente'] == 'n'){ ?>
  				<label>Nome cliente</label>
- 				<input type="text" name="nomeCliente" class="form-control"><br>
+ 				<input type="text" name="nomeCliente" id="nomeCliente" class="form-control">
+ 				<input type="checkbox" onchange="semNome(this)"><label style="margin-left: 0.5rem;">Sem nome</label><br><br>
  		<?php } ?>
 
  		<h3 id="add_div_pedido" style="font-size: 3rem; cursor: pointer; display: inline;"><i class="fas fa-plus-square text-success"></i></h3>
@@ -160,5 +161,17 @@ include ('includes/footer.php');
     function excluePedido(id){
     	$('#pedido_' + id).empty();
     	$('#pedido_' + id).attr('style', 'margin-bottom: 0px');
+    }
+
+    function semNome(campo){
+    	if(campo.checked){
+    		$('#nomeCliente').val('Sem nome');
+    		$('#nomeCliente').attr('readonly', true);
+    		$("#nomeCliente").css("cursor", "not-allowed");
+    	}else{
+    		$('#nomeCliente').val('');
+    		$("#nomeCliente").css("cursor", "auto");
+    		$('#nomeCliente').attr('readonly', false);
+    	}
     }
 </script>

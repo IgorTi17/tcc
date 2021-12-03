@@ -6,6 +6,11 @@ if(isset($_POST['finalizar'])){
 	$idCliente = $_POST['idCliente'];
 	$formaDePagamento = $_POST['formaDePagamento'];
 	$total = $_POST['total'];
+	if(!isset($_POST['taxa'])){
+		$taxa=0.00;
+	}else{
+		$taxa = $_POST['taxa'];
+	}
 	$dataAtual = strtotime(date('Y-m-d H:i:00'));
 	$troco = $_POST['troco'];
 	
@@ -17,7 +22,7 @@ if(isset($_POST['finalizar'])){
 		$conexao->query($queryItensPedido);
 	}
 
-	$queryPedido = "INSERT INTO pedidos (`idCliente`,`dataAtual`,`total`,`formaDePagamento`,`troco`,`status`) VALUES ('".$idCliente."','".$dataAtual."','".$total."','".$formaDePagamento."','".$troco."','separando')";
+	$queryPedido = "INSERT INTO pedidos (`idCliente`,`dataAtual`,`total`,`formaDePagamento`,`taxa`,`troco`,`status`) VALUES ('".$idCliente."','".$dataAtual."','".$total."','".$formaDePagamento."','".$taxa."','".$troco."','separando')";
 	$conexao->query($queryPedido);
 	
 	header('location: pedidos-list.php');
@@ -76,6 +81,9 @@ if(isset($_POST['finalizar'])){
 
 					for ($i=0; $i <= $tamanhoMedicamento; $i++) { 
 						$idMedicamento = $medicamento[$i];
+						if($idMedicamento == "Selecione"){
+							header('location:busca.php');
+						}
 						$queryMedicamento = mysqli_query($conexao, "SELECT * FROM medicamentos where idMedicamento = '".$idMedicamento."'");
 				    	$resultMedicamento = mysqli_fetch_array($queryMedicamento); 
 				        echo "<p>".$quantidadeMedicamento[$i]."x ".$resultMedicamento['nome'];
@@ -123,6 +131,7 @@ if(isset($_POST['finalizar'])){
 					<?php } ?>
 					<input type="hidden" name="total" value="<?= $total ?>">
 					<input type="hidden" name="troco" value="<?= $troco ?>">
+					<input type="hidden" name="taxa" value="<?= $taxaEntrega ?>">
 					<input type="hidden" name="formaDePagamento" value="<?= $_POST['formaDePagamento'] ?>">
 					<button type="submit" style="width: 100%;" class='btn btn-primary imprimir'>Fechar pedido</button><br><br>
 				</form>

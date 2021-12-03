@@ -45,9 +45,7 @@ INSERT INTO `fornecedor` (`idFornecedor`, `nome`, `razao_social`, `cpfCnpj`, `en
 (4, '', 'Nike Ltda', '28.562.224/0001-68', 'Rua da nike, 80', 'bloco 90', '97777-6666', 'contato@nike.com'),
 (7, 'Lucia Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'ana@gmail.com'),
 (18, 'Ana Lucia Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'ana@gmail.com'),
-(19, 'Jorge Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'jorge@gmail.com'),
-(21, '', '', '', '', '', '', ''),
-(22, '', '', '', '', '', '', '');
+(19, 'Jorge Reis dos Santos', '', '526.894.567-59', 'Rua do Ana, 4321', 'Bloco 9', '95497-6521', 'jorge@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -56,16 +54,17 @@ CREATE TABLE `history_solicitacao` (
   `idUsuario` int(11) NOT NULL,
   `idFornecedor` int(11) NOT NULL,
   `dataAtual` int(11) NOT NULL,
-  `msg` text NOT NULL
+  `msg` text NOT NULL,
+  `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `history_solicitacao` (`idHistory`, `idUsuario`, `idFornecedor`, `dataAtual`, `msg`) VALUES
-(1, 2, 4, 1636424122, 'Solicitação de quatro tênises.'),
-(2, 2, 4, 1636424147, 'tênises.'),
-(3, 2, 4, 1636424170, 'solicitação tênises.'),
-(4, 2, 4, 1636424205, 'solicitação cadeiras.'),
-(5, 2, 4, 1636424225, 'Solicitação tênis.'),
-(6, 2, 4, 1636424237, 'Tênis.');
+INSERT INTO `history_solicitacao` (`idHistory`, `idUsuario`, `idFornecedor`, `dataAtual`, `msg`, `status`) VALUES
+(1, 2, 4, 1636424122, 'Solicitação de quatro tênises.', 'CANCELADO'),
+(2, 2, 4, 1636424147, 'tênises.', 'PENDENTE'),
+(3, 2, 4, 1636424170, 'solicitação tênises.', 'CONCLUIDO'),
+(4, 2, 4, 1636424205, 'solicitação cadeiras.', 'PENDENTE'),
+(5, 2, 4, 1636424225, 'Solicitação tênis.', 'CONCLUIDO'),
+(6, 2, 4, 1636424237, 'Tênis.', 'PENDENTE');
 
 -- --------------------------------------------------------
 
@@ -78,8 +77,13 @@ CREATE TABLE `itens_pedido` (
 
 INSERT INTO `itens_pedido` (`idItensPedido`, `idPedido`, `medicamento`, `quantMedicamento`) VALUES
 (1, 2, '3', 4),
-(2, 2, '1', 3),
-(3, 3, '1', 1);
+(2, 2, '2', 3),
+(3, 3, '2', 1),
+(11, 8, '2', 1),
+(12, 11, '2', 1),
+(13, 11, '3', 2),
+(14, 5, '2', 1),
+(15, 5, '3', 4);
 
 -- --------------------------------------------------------
 
@@ -103,19 +107,22 @@ INSERT INTO `medicamentos` (`idMedicamento`, `nome`, `preco`, `quantidade`, `bul
 
 CREATE TABLE `pedidos` (
   `idPedido` int(11) NOT NULL,
-  `idCliente` int(11) NOT NULL,
+  `idCliente` varchar(100) NOT NULL,
   `dataAtual` int(11) NOT NULL,
   `total` varchar(11) NOT NULL,
   `formaDePagamento` varchar(11) NOT NULL,
+  `taxa` varchar(11) NOT NULL,
   `troco` varchar(11) NOT NULL,
   `status` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dataAtual`, `total`, `formaDePagamento`, `troco`, `status`) VALUES
-(2, 5, 1636380660, '10.30', 'Dinheiro', '15.00', 'separando'),
-(3, 1, 1636471920, '10.30', 'Cartão', '', 'entrega'),
-(4, 6, 1636562580, '10.30', 'Cartão', '', 'concluido'),
-(5, 7, 1636737960, '10.30', 'Dinheiro', '', 'cancelado');
+INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dataAtual`, `total`, `formaDePagamento`, `taxa`, `troco`, `status`) VALUES
+(2, '5', 1636380660, '10.30', 'Dinheiro', '5.00', '15.00', 'separando'),
+(3, '1', 1636471920, '10.30', 'Cartão', '4.00', '', 'entrega'),
+(4, '6', 1636562580, '10.30', 'Cartão', '3.00', '', 'concluido'),
+(5, '7', 1636737960, '10.30', 'Dinheiro', '2.00', '', 'cancelado'),
+(8, 'Igor teste', 1638315000, '10.30', 'Dinheiro', '0.00', '', 'separando'),
+(11, '3', 1638488400, '10.30', 'Dinheiro', '6.00', '', 'separando');
 
 -- --------------------------------------------------------
 
@@ -157,19 +164,19 @@ ALTER TABLE `cliente`
   MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 ALTER TABLE `fornecedor`
-  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 ALTER TABLE `history_solicitacao`
   MODIFY `idHistory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 ALTER TABLE `itens_pedido`
-  MODIFY `idItensPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idItensPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 ALTER TABLE `medicamentos`
   MODIFY `idMedicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 ALTER TABLE `usuario`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;

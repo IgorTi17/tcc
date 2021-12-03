@@ -50,6 +50,10 @@ $queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInic
 	.status-cancelado{background-color: #dc3545; color: #fff; text-transform: uppercase; font-weight: bold; border-radius: 5px;}
 
 	.status-entrega{background-color: #007bff; color: #fff; text-transform: uppercase; font-weight: bold; border-radius: 5px;}
+
+	.thlink{
+		cursor: pointer;
+	}
 </style>
 
 <section class="conteudoPedidos">
@@ -131,11 +135,12 @@ $queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInic
 					$total = number_format($total, 2, ',', ' ');
 	  		?>	  			
 			  	<tr>
-					<th class="text-center"><?= $resultPedido['idPedido'] ?></th>
-					<th class="text-center"><?= empty($resultNomeCliente['nome']) ? $resultPedido['idCliente'] : $resultNomeCliente['nome'] ?></th>
-					<th class="text-center"><?= date('d/m/Y \à\s H:i', $dataAtual) ?></th>
-					<th class="text-center">R$ <?= $total ?></th>
-					<th class="text-center"><?= $resultPedido['formaDePagamento'] ?></th>
+					<th class="text-center thlink" onClick="thlink(<?= $resultPedido['idPedido'] ?>)"><?= $resultPedido['idPedido'] ?></th>
+
+					<th class="text-center thlink" onClick="thlink(<?= $resultPedido['idPedido'] ?>)"><?= empty($resultNomeCliente['nome']) ? $resultPedido['idCliente'] : $resultNomeCliente['nome'] ?></th>
+					<th class="text-center thlink" onClick="thlink(<?= $resultPedido['idPedido'] ?>)"><?= date('d/m/Y \à\s H:i', $dataAtual) ?></th>
+					<th class="text-center thlink" onClick="thlink(<?= $resultPedido['idPedido'] ?>)">R$ <?= $total ?></th>
+					<th class="text-center thlink" onClick="thlink(<?= $resultPedido['idPedido'] ?>)"><?= $resultPedido['formaDePagamento'] ?></th>
 					<th class="text-center">
 						<button id="status-<?= $resultPedido['idPedido'] ?>" onclick="atualizaStatus(<?= $resultPedido['idPedido'] ?>, '<?= $resultPedido['status'] ?>')" class="btn btn-sm status-<?= $resultPedido['status'] ?>"><?= $resultPedido['status'] ?></button> 
 					</th>
@@ -202,5 +207,9 @@ $queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInic
             });
         });
 	<?php } ?>
-}
+
+	function thlink(id){
+		window.open("pedidoDetalhado.php?id="+id);
+	}
+
 </script>

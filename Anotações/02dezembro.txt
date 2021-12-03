@@ -4,6 +4,4 @@
 
 -- limitar o numero do remedio no pedido de acordo com o estoque
 
--- Página de reverPedido
-   -link nos tds de pedidos-list
-   -sem link nos tds Status
+-- ajax para select de medicamentos
