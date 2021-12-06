@@ -2,6 +2,10 @@
 include('includes/dashboard.php'); 
 date_default_timezone_set('America/Sao_Paulo');
 
+//botoes home
+$statusHome="";
+if(isset($_REQUEST['status'])){$statusHome = " AND status = '".$_REQUEST['status']."'";}
+
 //Busca avançada
 if(isset($_POST['actionBA'])){
 	if(empty($_POST['dataInicioBA'])){$dataInicioBA = "";}
@@ -28,7 +32,7 @@ if(isset($_POST['actionBA'])){
 	$numeroBA="";$dataInicioBA="";$dataFimBA="";$formaDePagamento="";
 }
 
-$queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInicioBA.$dataFimBA.$formaDePagamento." ORDER BY idPedido";
+$queryPedido = "SELECT * FROM pedidos WHERE idPedido != '' ".$numeroBA.$dataInicioBA.$dataFimBA.$formaDePagamento.$statusHome." ORDER BY idPedido";
 
 ?>
 

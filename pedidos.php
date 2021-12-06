@@ -7,6 +7,11 @@ if (!isset($_REQUEST['idCliente'])) {
 	exit;
 }
 
+$queryMaxMed = mysqli_query($conexao, "SELECT * FROM medicamentos ORDER BY nome DESC");
+while ($resultMaxMed = mysqli_fetch_array($queryMaxMed)){
+	$maxMed = $resultMaxMed['quantidade'];
+}
+
 ?>
 <style>
 	.lixeira{
@@ -63,10 +68,9 @@ if (!isset($_REQUEST['idCliente'])) {
 			<div id="pedido_0" class="row" style="margin-bottom: 20px; padding-right: 0;">
 				<div class="col-lg-9">
 					<label>Medicamentos:</label>
-					<select class="form-select" name="medicamento[]" required>
-						<option selected>Selecione</option>
+					<select class="form-select" onchange="limitarMed(this.value,0)" name="medicamento[]" required>
 						<?php 
-						$queryMed = mysqli_query($conexao, "SELECT * FROM medicamentos");
+						$queryMed = mysqli_query($conexao, "SELECT * FROM medicamentos WHERE quantidade > 0 ORDER BY nome ASC");
 						while ($med = mysqli_fetch_array($queryMed)){ ?>
 							<option value="<?= $med['idMedicamento'] ?>"><?= $med['nome'] ?></option>
 						<?php } ?>
@@ -76,7 +80,7 @@ if (!isset($_REQUEST['idCliente'])) {
 					<label>Quantidade:</label>
 					<div class="row">
 						<div class="col-lg-8">
-							<input type="Number" name="quantidadeMedicamento[]" value="1" class="form-control" min="1">
+							<input type="Number" class="quantMed" id="quantMed_0" name="quantidadeMedicamento[]" value="1" class="form-control" min="1" max="<?= $maxMed ?>">
 						</div>	
 					</div>		
 				</div>
@@ -140,9 +144,27 @@ include ('includes/footer.php');
 	contador = 1;
     //Adiciona linha de pedido
     $( "#add_div_pedido" ).click(function() {
-        var documents = '<div id="pedido_'+contador+'" class="row" style="margin-bottom: 20px; padding-right: 0;"><div class="col-lg-9"><label>Medicamentos:</label><select class="form-select editaValor" name="medicamento[]" required><option selected>Selecione</option><option value="1">Dipirona</option><option value="2">Amocilina</option><option value="3">Torcilax</option></select></div><div class="col-lg-2"><label>Quantidade:</label><div class="row"><div class="col-lg-8"><input type="Number" name="quantidadeMedicamento[]" value="1" class="form-control editaValor" min="1"></div></div></div><div class="col-lg-1"><button onclick="excluePedido(this.value)" value="'+contador+'" class="btn"><i class="lixeira fas fa-trash-alt"></i></button></div></div>';
+        var documents = '<div id="pedido_'+contador+'" class="row" style="margin-bottom: 20px; padding-right: 0;"><div class="col-lg-9"><label>Medicamentos:</label><select id="selectMedicamentos'+contador+'" class="form-select editaValor" onchange="limitarMed(this.value,'+contador+')" name="medicamento[]" required></select></div><div class="col-lg-2"><label>Quantidade:</label><div class="row"><div class="col-lg-8"><input type="Number" name="quantidadeMedicamento[]" class="quantMed" id="quantMed_'+contador+'"  value="1" class="form-control editaValor" min="1"></div></div></div><div class="col-lg-1"><button onclick="excluePedido(this.value)" value="'+contador+'" class="btn"><i class="lixeira fas fa-trash-alt"></i></button></div></div>';
 
         $("#div_pedido").append(documents);
+
+        selectMedicamentos = $('#selectMedicamentos'+contador);
+
+        $.ajax({
+			type: 'POST',
+			url: 'includes/ajax/selectMedicamentos.php',
+			success: function(data) {
+				meds = JSON.parse(data);
+				$.each(meds.nome, function(i, item) {
+                    selectMedicamentos.append($('<option>', {
+                        value: meds.idMedicamento[i],
+                        text: item
+                    }));
+                });
+			}
+		});
+
+
         contador++;
     });
 
@@ -173,5 +195,20 @@ include ('includes/footer.php');
     		$("#nomeCliente").css("cursor", "auto");
     		$('#nomeCliente').attr('readonly', false);
     	}
+    }
+
+    function limitarMed(valor,id){
+    	idMedicamento = valor;
+    	$.ajax({
+			url: 'includes/ajax/quantMedicamentos.php',
+            data: {
+                'id': idMedicamento
+            },
+            type: 'POST',
+			success: function(data) {
+				$("#quantMed_"+id).attr("max", data);
+    			$("#quantMed_"+id).val("1");
+			}
+		});
     }
 </script>
