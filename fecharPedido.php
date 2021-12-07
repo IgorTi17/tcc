@@ -44,7 +44,7 @@ if(isset($_POST['finalizar'])){
 				$l = mysqli_fetch_array($r);
 				$numeroPedido = $l['Auto_increment'];
 
-				$total = $_POST['total'];
+				$total = 0;
 				if(isset($_POST['troco'])){$troco = $_POST['troco'];}else{$troco = 0;}
 
 				date_default_timezone_set('America/Sao_Paulo');
@@ -88,6 +88,7 @@ if(isset($_POST['finalizar'])){
 				    	$resultMedicamento = mysqli_fetch_array($queryMedicamento); 
 				        echo "<p>".$quantidadeMedicamento[$i]."x ".$resultMedicamento['nome'];
 				        $itensPedidoInput .= $quantidadeMedicamento[$i]."=".$idMedicamento."|";
+				        $total += ($quantidadeMedicamento[$i] * $resultMedicamento['preco']);
 					}
 
 					$itensPedidoInput = substr($itensPedidoInput, 0, -1); 
@@ -105,6 +106,8 @@ if(isset($_POST['finalizar'])){
 				echo "<p><strong>FORMA DE PAGAMENTO</strong></p>";
 				echo "<p>".$_POST['formaDePagamento']."</p>";
 				echo "<hr>";
+
+				$total += $taxaEntrega;
 
 				if($troco > 0){
 					$levarTroco = $troco - $total;

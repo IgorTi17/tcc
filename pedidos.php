@@ -63,7 +63,6 @@ while ($resultMaxMed = mysqli_fetch_array($queryMaxMed)){
 
  		<input type="hidden" name="viewer">
  		<input type="hidden" name="idCliente" value="<?= $_REQUEST['idCliente'] ?>">
- 		<input type="hidden" name="total" value="10.30">
 		<div class="row" id="div_pedido">
 			<div id="pedido_0" class="row" style="margin-bottom: 20px; padding-right: 0;">
 				<div class="col-lg-9">
@@ -99,7 +98,7 @@ while ($resultMaxMed = mysqli_fetch_array($queryMaxMed)){
 			</div>
 			<div class="col-lg-3" id="div_troco">
 				<label>Troco</label>
-				<input type="text" name="troco" id="troco" class="form-control" placeholder="Troco">
+				<input type="text" name="troco" id="troco" value="0" class="form-control" placeholder="Troco">
 			</div>
 			<?php if($_REQUEST['idCliente'] != 'n'){ ?>
 				<div class="col-lg-4" id="div_troco">
